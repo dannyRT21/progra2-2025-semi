@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">MiPrimeraAplicacion</string>
     <string-array name="opciones">
-        <item>Suma</item>
+     <item>Suma</item>
         <item>resta</item>
         <item>Multiplicacion</item>
         <item>Divicion</item>
