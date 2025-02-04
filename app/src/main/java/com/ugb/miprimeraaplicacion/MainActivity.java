@@ -73,14 +73,14 @@ Spinner spn;
                             break;
                         case 6: // Raíz cuadrada
                             if (num1 < 0) {
-                                lblRespuesta.setText("Error: No se puede calcular la raíz de un número negativo.");
+                                lblRespuesta.setText("Error:la raíz de un número negativo no existe.");
                                 return;
                             }
                             resultado = Math.sqrt(num1);
                             break;
                         case 7: // Factorial
                             if (num1 < 0 || num1 != (int) num1) {
-                                lblRespuesta.setText("Error: Factorial solo se aplica a enteros positivos.");
+                                lblRespuesta.setText("Error: Factorial se calcula a enteros positivos.");
                                 return;
                             }
                             int n = (int) num1;
@@ -90,7 +90,7 @@ Spinner spn;
                             }
                             break;
                         default:
-                            lblRespuesta.setText("Error: Operación no válida.");
+                            lblRespuesta.setText("Error: la Operación no da.");
                             return;
                     }
 
