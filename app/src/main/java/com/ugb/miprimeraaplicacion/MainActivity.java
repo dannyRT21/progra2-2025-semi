@@ -22,7 +22,7 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
     Button btn;
     TextView lblRespuesta;
-    RadioGroup rgoOpciones;
+Spinner spn;
     EditText txtNum1, txtNum2;
 
     @Override
@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
         txtNum1 = findViewById(R.id.txtNum1);
         txtNum2 = findViewById(R.id.txtNum2);
         lblRespuesta = findViewById(R.id.lblRespuesta);
-        rgoOpciones = findViewById(R.id.rgoOpciones);
 
         // Evento del botón
         btn.setOnClickListener(new View.OnClickListener() {
@@ -46,43 +45,57 @@ public class MainActivity extends AppCompatActivity {
                     double num1 = txtNum1.getText().toString().isEmpty() ? 0 : Double.parseDouble(txtNum1.getText().toString());
                     double num2 = txtNum2.getText().toString().isEmpty() ? 0 : Double.parseDouble(txtNum2.getText().toString());
                     double resultado = 0.0;
+                    spn = findViewById(R.id.spnOpciones);
+                    switch (spn.getSelectedItemPosition())
+                    {
+                        case 0 :
+                            resultado = num1 + num2;
+                            break;
 
+                        case 1 :
+                            resultado = num1 - num2;
+                            break;
 
-                    int selectedId = rgoOpciones.getCheckedRadioButtonId();
-                    if (selectedId == -1) {
-                        lblRespuesta.setText("Error: Selecciona una operación.");
-                        return;
-                    }
+                        case 2:
+                            resultado = num1 *num2;
+                            break;
 
-                    // operaciones
-                    if (selectedId == R.id.optsuma) {
-                        resultado = num1 + num2;
-                    } else if (selectedId == R.id.optresta) {
-                        resultado = num1 - num2;
-                    } else if (selectedId == R.id.optmultiplicacion) {
-                        resultado = num1 * num2;
-                    } else if (selectedId == R.id.optdivision) {
-                        resultado = (num2 != 0) ? num1 / num2 : Double.NaN;
-                    } else if (selectedId == R.id.optExponente) {
-                        resultado = Math.pow(num1, num2);
-                    } else if (selectedId == R.id.optPorcentaje) {
-                        resultado = (num1 * num2) / 100;
-                    } else if (selectedId == R.id.optRaiz) {
-                        resultado = (num1 >= 0) ? Math.sqrt(num1) : Double.NaN;
-                    } else if (selectedId == R.id.optFactorial) {
-                        if (num1 < 0 || num1 != (int) num1) {
-                            lblRespuesta.setText("Error: Factorial solo para enteros positivos.");
+                        case 3:
+                            resultado = num1 /num2;
+                            break;
+
+                        case 4:
+                            resultado = Math.pow(num1,num2);
+                            break;
+
+                        case 5:
+                            resultado = (num1 * num2) / 100;
+                            break;
+                        case 6: // Raíz cuadrada
+                            if (num1 < 0) {
+                                lblRespuesta.setText("Error: No se puede calcular la raíz de un número negativo.");
+                                return;
+                            }
+                            resultado = Math.sqrt(num1);
+                            break;
+                        case 7: // Factorial
+                            if (num1 < 0 || num1 != (int) num1) {
+                                lblRespuesta.setText("Error: Factorial solo se aplica a enteros positivos.");
+                                return;
+                            }
+                            int n = (int) num1;
+                            resultado = 1;
+                            for (int i = 1; i <= n; i++) {
+                                resultado *= i;
+                            }
+                            break;
+                        default:
+                            lblRespuesta.setText("Error: Operación no válida.");
                             return;
-                        }
-
-                        // el factorial
-                        int n = (int) num1;
-                        long factorial = 1;
-                        for (int i = 1; i <= n; i++) {
-                            factorial *= i;
-                        }
-                        resultado = factorial;
                     }
+
+
+
 
                     lblRespuesta.setText("Respuesta: " + resultado);
                 } catch (NumberFormatException e) {
@@ -92,3 +105,4 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 }
+
