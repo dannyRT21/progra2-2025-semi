@@ -9,6 +9,10 @@
         <item>Porcentaje</item>
         <item>Raiz</item>
         <item>Factorial</item>
+        <item>Mayor que</item>
+        <item>residuo</item>
+
+
 
     </string-array>
 </resources>
