@@ -21,7 +21,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
     TextView tempVal;
     SensorManager sensorManager;
     Sensor sensor;
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         sensorLuz();
     }
     @Override
-    protected void onResume() { //estos metodos se llaman haciendo click derecho y en la opcion Generate/Override
+    protected void onResume() {
         iniciar();
         super.onResume();
     }
@@ -44,31 +44,29 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
     }
     private void iniciar(){
-        sensorManager.registerListener(sensorEventListener, sensor, 2000*1000); //es la cantidad de tiempo de ejecucion de este sensor
+        sensorManager.registerListener(sensorEventListener, sensor, 2000*1000);
     }
     private void detener(){
         sensorManager.unregisterListener(sensorEventListener);
     }
     private void sensorLuz(){
-        tempVal = findViewById(R.id.lblSensorLuz);
+        tempVal = findViewById(R.id.lblSensorProximidad);
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT); //administrador de sensores
-
-        //if else para condicionar el funcionamiento del censor de luz
+        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         if( sensor==null ){
-            tempVal.setText("Tu dispositivo, NO tiene el senor de LUZ");
+            tempVal.setText("Tu dispositivo, NO tiene el senor de PROXIMIDAD");
             finish();
         }
         sensorEventListener = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent event) {
                 double valor = event.values[0];
-                tempVal.setText("Cantidad de Luz: "+ valor);
+                tempVal.setText("Proximidad: "+ valor);
 
-                if(valor<=20){
-                    getWindow().getDecorView().setBackgroundColor(Color.GRAY);
-                }else if(valor<=50){
-                    getWindow().getDecorView().setBackgroundColor(Color.BLUE);
+                if(valor<=4){
+                    getWindow().getDecorView().setBackgroundColor(Color.BLACK);
+                }else if(valor<=8){
+                    getWindow().getDecorView().setBackgroundColor(Color.MAGENTA);
                 }else{
                     getWindow().getDecorView().setBackgroundColor(Color.MAGENTA);
                 }
