@@ -1,18 +1,83 @@
 <resources>
     <string name="app_name">MiPrimeraAplicacion</string>
-    <string-array name="opciones">
-     <item>Suma</item>
-        <item>resta</item>
-        <item>Multiplicacion</item>
-        <item>Divicion</item>
-        <item>Exponente</item>
-        <item>Porcentaje</item>
-        <item>Raiz</item>
-        <item>Factorial</item>
-        <item>Mayor que</item>
-        <item>residuo</item>
+    <string-array name="monedas">
+        <item>Dolar</item>
+        <item>Euro</item>
+        <item>Quetzal</item>
+        <item>Lempira</item>
+        <item>Córdoba</item>
+        <item>Colón CR</item>
+        <item>Colón SV</item>
+        <item>Yen</item>
+        <item>Libra</item>
+        <item>Rupia</item>
+        <item>Peso MX</item>
+    </string-array>
 
 
 
+    <!-- Arrays para longitud -->
+    <string-array name="longitud">
+        0 <item>Metros</item>
+        1<item>Kilómetros</item>
+        2<item>Millas</item>
+        3<item>Pies</item>
+        4<item>Centimetros</item>
+        5<item>Milimetros</item>
+        6<item>Yarda</item>
+        7<item>Pulgadas</item>
+        8<item>Hectarea</item>
+        9<item>Nanometro</item>
+
+
+    </string-array>
+
+
+
+    <!-- Arrays para tiempo -->
+    <string-array name="tiempo">
+        <item>Segundos</item>
+        <item>Minutos</item>
+        <item>Horas</item>
+        <item>Días</item>
+        <item>semanas</item>
+        <item>Meses</item>
+        <item>años</item>
+        <item>Decadas</item>
+        <item>Siglos</item>
+        <item>Milenios</item>
+
+
+
+    </string-array>
+
+    <!-- Arrays para almacenamiento -->
+    <string-array name="almacenamiento">
+        <item>Bytes</item>
+        <item>Kilobytes</item>
+        <item>Megabytes</item>
+        <item>Gigabytes</item>
+        <item>Terabytes</item>
+        <item>Petabytes</item>
+        <item>Exabytes</item>
+        <item>Zettabytes</item>
+        <item>Yottabytes</item>
+        <item>Brontobytes</item>
+    </string-array>
+
+
+
+    <!-- Arrays para transferencia de datos -->
+    <string-array name="transferencia_datos">
+        <item>Bits</item>
+        <item>Kilobits</item>
+        <item>Megabits</item>
+        <item>Gigabits</item>
+        <item>Terabits</item>
+        <item>Petabits</item>
+        <item>Exabits</item>
+        <item>Zettabits</item>
+        <item>Yottabits</item>
+        <item>Brontobits</item>
     </string-array>
 </resources>
