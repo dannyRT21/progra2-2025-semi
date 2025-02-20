@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     void reproductorMusca(){
-        mediaPlayer = MediaPlayer.create(this, R.raw.audio);
+MediaPlayer mediaPlayer =MediaPlayer.create(this, R.raw.eveme);
     }
     void iniciar(){
         mediaPlayer.start();
