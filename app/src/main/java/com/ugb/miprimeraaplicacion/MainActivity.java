@@ -92,15 +92,28 @@ public class MainActivity extends AppCompatActivity {
 
     private void calcularConversionArea() {
         String cantidadStr = txtCantidad.getText().toString();
-        if (cantidadStr.isEmpty()) {
-            Toast.makeText(this, "Ingrese un valor válido", Toast.LENGTH_SHORT).show();
+
+        // Validar que el input no esté vacío y sea un número válido
+        if (cantidadStr.isEmpty() || cantidadStr.equals(".")) {
+            Toast.makeText(this, "Ingrese un número válido", Toast.LENGTH_SHORT).show();
             return;
         }
-        double cantidad = Double.parseDouble(cantidadStr);
-        String de = spnDeArea.getSelectedItem().toString();
-        String a = spnAArea.getSelectedItem().toString();
 
-        double resultado = cantidad * conversionRates.get(de + "-" + a);
-        lblResultadoArea.setText("Resultado: " + resultado + " " + a);
+        try {
+            double cantidad = Double.parseDouble(cantidadStr);
+            String de = spnDeArea.getSelectedItem().toString();
+            String a = spnAArea.getSelectedItem().toString();
+
+            // Evitar conversión entre unidades iguales
+            if (de.equals(a)) {
+                Toast.makeText(this, "Seleccione unidades diferentes para la conversión", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            double resultado = cantidad * conversionRates.get(de + "-" + a);
+            lblResultadoArea.setText("Resultado: " + resultado + " " + a);
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Ingrese un número válido", Toast.LENGTH_SHORT).show();
+        }
     }
 }
