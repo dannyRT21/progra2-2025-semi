@@ -16,6 +16,13 @@
 
 
 
+        <string-array name="units_array">
+            <item>m² a ft²</item>
+            <item>ft² a m²</item>
+        </string-array>
+
+
+
     <!-- Arrays para longitud -->
     <string-array name="longitud">
         0 <item>Metros</item>
