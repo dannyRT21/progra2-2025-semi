@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp"
+    android:background="@android:color/background_light">
 
     <TabHost
         android:id="@android:id/tabhost"
@@ -16,87 +19,140 @@
             <TabWidget
                 android:id="@android:id/tabs"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:background="?android:attr/colorAccent"/>
 
             <FrameLayout
                 android:id="@android:id/tabcontent"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:padding="10dp">
 
                 <!-- Pestaña Pago de Agua -->
-                <LinearLayout
+                <androidx.cardview.widget.CardView
                     android:id="@+id/tab1"
-                    android:orientation="vertical"
-                    android:padding="16dp"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="6dp"
+                    android:padding="16dp">
 
-                    <TextView
-                        android:text="Ingrese consumo de agua (m³):"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <EditText
-                        android:id="@+id/txtConsumo"
+                    <LinearLayout
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number" />
+                        android:padding="10dp">
 
-                    <Button
-                        android:id="@+id/btnCalcularAgua"
-                        android:text="Calcular"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        <TextView
+                            android:text="Ingrese consumo de agua (m³):"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
 
-                    <TextView
-                        android:id="@+id/lblResultadoAgua"
-                        android:text="Total a pagar:"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
+                        <EditText
+                            android:id="@+id/txtConsumo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:hint="Ej: 20" />
+
+                        <Button
+                            android:id="@+id/btnCalcularAgua"
+                            android:text="Calcular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/black"
+                            android:textColor="@android:color/white"
+                            android:layout_marginTop="10dp"/>
+
+                        <TextView
+                            android:id="@+id/lblResultadoAgua"
+                            android:text="Total a pagar: $0.00"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
                 <!-- Pestaña Conversor de Área -->
-                <LinearLayout
+                <androidx.cardview.widget.CardView
                     android:id="@+id/tab2"
-                    android:orientation="vertical"
-                    android:padding="16dp"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="6dp"
+                    android:padding="16dp">
 
-                    <TextView
-                        android:text="Cantidad a convertir:"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <EditText
-                        android:id="@+id/txtCantidadArea"
+                    <LinearLayout
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="numberDecimal" />
+                        android:padding="10dp">
 
-                    <Spinner
-                        android:id="@+id/spnDeArea"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        <TextView
+                            android:text="Cantidad a convertir:"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
 
-                    <Spinner
-                        android:id="@+id/spnAArea"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        <EditText
+                            android:id="@+id/txtCantidadArea"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            android:hint="Ej: 50.5"/>
 
-                    <Button
-                        android:id="@+id/btnConvertirArea"
-                        android:text="Convertir"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        <TextView
+                            android:text="De:"
+                            android:textSize="14sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"/>
 
-                    <TextView
-                        android:id="@+id/lblResultadoArea"
-                        android:text="Resultado:"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
+                        <Spinner
+                            android:id="@+id/spnDeArea"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:text="A:"
+                            android:textSize="14sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"/>
+
+                        <Spinner
+                            android:id="@+id/spnAArea"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                        <Button
+                            android:id="@+id/btnConvertirArea"
+                            android:text="Convertir"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/design_default_color_secondary_variant"
+                            android:textColor="@android:color/white"
+                            android:layout_marginTop="10dp"/>
+
+                        <TextView
+                            android:id="@+id/lblResultadoArea"
+                            android:text="Resultado: 0.00"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
             </FrameLayout>
         </LinearLayout>
     </TabHost>
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
