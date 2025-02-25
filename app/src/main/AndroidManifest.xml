@@ -17,6 +17,8 @@
         android:theme="@style/Theme.MiPrimeraAplicacion"
         tools:targetApi="31">
         <activity
+
+
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
@@ -27,8 +29,8 @@
         </activity>
 
         <provider
-            android:authorities=" "
-            android:name=""
+            android:authorities="au "
+            android:name= " "
     </application>
 
 </manifest>
