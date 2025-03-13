@@ -71,7 +71,7 @@ public class lista_amigos extends Activity {
                 } while (cAmigos.moveToNext());
                 mostrarDatosAmigos();
             } else {
-                mostrarMsg("No hay amigos registrados.");
+                mostrarMsg("No hay Productos registrados.");
                 abriVentana();
             }
         } catch (Exception e) {
