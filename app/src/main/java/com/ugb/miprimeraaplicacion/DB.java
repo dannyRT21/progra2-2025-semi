@@ -45,7 +45,7 @@ public class DB extends SQLiteOpenHelper {
             return e.getMessage();
         }
     }
-    public Cursor lista_amigos() { // Cambiamos el nombre del método
+    public Cursor lista_productos() {
         SQLiteDatabase db = getReadableDatabase();
         return db.rawQuery("SELECT * FROM productos", null); // Cambiamos el nombre de la tabla
     }

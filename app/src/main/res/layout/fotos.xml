@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:padding="16dp"
+    android:gravity="center_vertical">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        app:cardCornerRadius="150dp"
-        android:layout_marginTop="10dp">
+        android:id="@+id/cardViewFoto"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:cardCornerRadius="40dp">
 
         <ImageView
             android:id="@+id/imgFotoAdaptador"
@@ -17,28 +20,52 @@
             android:scaleType="centerCrop"
             android:src="@mipmap/ic_launcher_round"/>
 
-
     </androidx.cardview.widget.CardView>
 
-    <TextView
-        android:id="@+id/lblNombreAdaptador"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="80dp"
-        android:layout_marginTop="10dp"
-        android:text="Butera"/>
-    <TextView
-        android:id="@+id/lbltelefonoAdaptador"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="80dp"
-        android:layout_marginTop="30dp"
-        android:text="2000-5542"/>
-    <TextView
-        android:id="@+id/lblEmailAdaptador"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="190dp"
-        android:layout_marginTop="30dp"
-        android:text="Butti@gmail.com"/>
-</RelativeLayout>
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginStart="16dp">
+
+        <TextView
+            android:id="@+id/lblCodProducto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Código: 001"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/lblProducto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Manzanas"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/lblpresentacion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Presentacion"
+            android:textSize="18sp"
+        />
+
+        <TextView
+            android:id="@+id/lblMarca"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Del Monte"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/lblPrecioUnidad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$1.50"
+            android:textSize="16sp"/>
+
+    </LinearLayout>
+
+</LinearLayout>
