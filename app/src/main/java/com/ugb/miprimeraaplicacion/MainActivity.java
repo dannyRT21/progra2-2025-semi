@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
     }
     private void abrirVentana(){
-        Intent intent = new Intent(this, lista_amigos.class);
+        Intent intent = new Intent(this, lista_producto.class);
         startActivity(intent);
     }
     private void guardarAmigo() {
