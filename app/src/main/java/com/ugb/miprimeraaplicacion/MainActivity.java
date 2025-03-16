@@ -20,15 +20,15 @@ public class MainActivity extends AppCompatActivity {
     Button btn;
     TextView tempVal;
     DB db;
-    String accion = "nuevo", idAmigo = "";
+    String accion = "nuevo", idProducto = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         db = new DB(this);
-        btn = findViewById(R.id.btnGuardarAmigo);
-        btn.setOnClickListener(view->guardarAmigo());
+        btn = findViewById(R.id.btnGuardarproducto);
+        btn.setOnClickListener(view->guardarProducto());
 
         fab = findViewById(R.id.fabListaProductos);
         fab.setOnClickListener(view->abrirVentana());
@@ -40,23 +40,23 @@ public class MainActivity extends AppCompatActivity {
             Bundle parametros = getIntent().getExtras();
             accion = parametros.getString("accion");
             if (accion.equals("modificar")) {
-                JSONObject datos = new JSONObject(parametros.getString("amigos"));
-                idAmigo = datos.getString("idAmigo");
+                JSONObject datos = new JSONObject(parametros.getString("Producto"));
+                idProducto = datos.getString("idProducto");
 
                 tempVal = findViewById(R.id.txtCodigo);
-                tempVal.setText(datos.getString("nombre"));
+                tempVal.setText(datos.getString("codigo"));
 
                 tempVal = findViewById(R.id.txtNombreProducto);
-                tempVal.setText(datos.getString("direccion"));
+                tempVal.setText(datos.getString("nombre"));
 
                 tempVal = findViewById(R.id.txtpresentacion);
-                tempVal.setText(datos.getString("telefono"));
+                tempVal.setText(datos.getString("presentacion"));
 
                 tempVal = findViewById(R.id.txtMarca);
-                tempVal.setText(datos.getString("email"));
+                tempVal.setText(datos.getString("marca"));
 
                 tempVal = findViewById(R.id.txtPrecio);
-                tempVal.setText(datos.getString("dui"));
+                tempVal.setText(datos.getString("precio"));
             }
         }catch (Exception e){
             mostrarMsg("Error: "+e.getMessage());
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, lista_producto.class);
         startActivity(intent);
     }
-    private void guardarAmigo() {
+    private void guardarProducto() {
         tempVal = findViewById(R.id.txtCodigo);
         String nombre = tempVal.getText().toString();
 
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         tempVal = findViewById(R.id.txtPrecio);
         String dui = tempVal.getText().toString();
 
-        String[] datos = {"", nombre, direccion, telefono, email, dui, ""};
+        String[] datos = {"",  nombre, direccion, telefono, email, dui, ""};
         db.administrar_productos("agregar", datos);
         Toast.makeText(getApplicationContext(), "Registro guardado con exito.", Toast.LENGTH_LONG).show();
         abrirVentana();

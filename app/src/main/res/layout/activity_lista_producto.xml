@@ -28,6 +28,7 @@
         android:layout_below="@id/txtBuscarProducto"
         android:divider="@android:color/darker_gray"
         android:dividerHeight="1dp"
+
         />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

@@ -12,6 +12,8 @@ import java.util.ArrayList;
 
 public class AdaptadorProductos extends BaseAdapter {
 
+
+
     Context context;
     ArrayList<productos> aProductos;
 
@@ -19,9 +21,9 @@ public class AdaptadorProductos extends BaseAdapter {
 
     LayoutInflater inflater;
 
-    public AdaptadorProductos(Context context, ArrayList<productos> aProductos) {
+    public AdaptadorProductos(Context context, ArrayList<productos> aProducts) {
         this.context = context;
-        this.aProductos = aProductos;
+        this.aProductos = aProducts;
     }
 
     @Override
@@ -69,4 +71,6 @@ public class AdaptadorProductos extends BaseAdapter {
 
         return vista;
     }
+
 }
+

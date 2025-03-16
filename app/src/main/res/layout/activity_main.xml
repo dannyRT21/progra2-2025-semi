@@ -96,7 +96,7 @@
        android:layout_height="wrap_content"/>
 
    <Button
-       android:id="@+id/btnGuardarAmigo"
+       android:id="@+id/btnGuardarproducto"
        android:layout_width="284dp"
        android:layout_height="wrap_content"
        android:layout_marginTop="20dp"
