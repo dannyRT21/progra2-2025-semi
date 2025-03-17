@@ -6,10 +6,16 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -31,22 +37,57 @@ public class lista_producto extends Activity {
     productos misProductos;
     FloatingActionButton fab;
 
+    int posicion = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_producto);
 
+        parametros.putString("accion", "nuevo");
         db = new DB(this);
         ltsProductos = findViewById(R.id.ltsProductos); // Inicializar ListView
+
         fab = findViewById(R.id.fabRegresarProducto);
         fab.setOnClickListener(view -> AbrirVentana());
-
         ObtenerDatoProductos(); // Llamar a la función para obtener datos
         buscarProducto();
+    }
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.mimenu, menu);
+        try {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+            posicion = info.position;
+            menu.setHeaderTitle(jsonArray.getJSONObject(posicion).getString("codigo"));
+        } catch (Exception e) {
+            mostrarMsg("Error: " + e.getMessage());
+        }
+    }
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        try{
+            if( item.getItemId()==R.id.mnxNuevo){
+                AbrirVentana();
+            }else if( item.getItemId()==R.id.mnxModificar){
+                parametros.putString("accion", "modificar");
+                parametros.putString("Producto", jsonArray.getJSONObject(posicion).toString());
+                AbrirVentana();
+            } else if (item.getItemId()==R.id.mnxEliminar) {
+
+            }
+            return true;
+        }catch (Exception e){
+            mostrarMsg("Error: " + e.getMessage());
+            return super.onContextItemSelected(item);
+        }
     }
 
     private void AbrirVentana() {
         Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtras(parametros);
         startActivity(intent);
     }
 

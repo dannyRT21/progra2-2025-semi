@@ -71,22 +71,31 @@ public class MainActivity extends AppCompatActivity {
     }
     private void guardarProducto() {
         tempVal = findViewById(R.id.txtCodigo);
-        String nombre = tempVal.getText().toString();
+        String codigo = tempVal.getText().toString();
 
         tempVal = findViewById(R.id.txtNombreProducto);
-        String direccion = tempVal.getText().toString();
+        String nombre = tempVal.getText().toString();
 
         tempVal = findViewById(R.id.txtpresentacion);
-        String telefono = tempVal.getText().toString();
+        String presentacion = tempVal.getText().toString();
         tempVal = findViewById(R.id.txtMarca);
-        String email = tempVal.getText().toString();
+        String marca = tempVal.getText().toString();
 
         tempVal = findViewById(R.id.txtPrecio);
-        String dui = tempVal.getText().toString();
+        String precio = tempVal.getText().toString();
 
-        String[] datos = {"",  nombre, direccion, telefono, email, dui, ""};
-        db.administrar_productos("agregar", datos);
-        Toast.makeText(getApplicationContext(), "Registro guardado con exito.", Toast.LENGTH_LONG).show();
+
+
+
+        String[] datos = {idProducto, codigo, nombre, presentacion, marca, precio, ""};
+
+        if (accion.equals("nuevo")) {
+            db.administrar_productos("agregar", datos);
+            Toast.makeText(getApplicationContext(), "Registro guardado con éxito.", Toast.LENGTH_LONG).show();
+        } else if (accion.equals("modificar")) {
+            db.administrar_productos("modificar", datos);
+            Toast.makeText(getApplicationContext(), "Registro actualizado con éxito.", Toast.LENGTH_LONG).show();
+        }
         abrirVentana();
     }
 }
