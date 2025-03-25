@@ -5,6 +5,9 @@ public class amigos {
     String nombre;
     String direccion;
     String telefono;
+    String email;
+    String dui;
+    String foto;
 
     public amigos(String idAmigo, String nombre, String direccion, String telefono, String email, String dui, String foto) {
         this.idAmigo = idAmigo;
@@ -15,10 +18,6 @@ public class amigos {
         this.dui = dui;
         this.foto = foto;
     }
-
-    String email;
-    String dui;
-    String foto;
 
     public String getIdAmigo() {
         return idAmigo;
@@ -59,9 +58,11 @@ public class amigos {
     public void setEmail(String email) {
         this.email = email;
     }
+
     public String getDui() {
         return dui;
     }
+
     public void setDui(String dui) {
         this.dui = dui;
     }
@@ -69,6 +70,7 @@ public class amigos {
     public String getFoto() {
         return foto;
     }
+
     public void setFoto(String foto) {
         this.foto = foto;
     }

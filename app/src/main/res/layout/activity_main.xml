@@ -56,9 +56,10 @@
      android:layout_below="@id/txtDui"
      android:layout_marginTop="20dp"
      android:layout_centerHorizontal="true"
-     android:src="@mipmap/ic_launcher_round"
-     android:layout_width="wrap_content"
-     android:layout_height="wrap_content"/>
+     android:layout_width="200dp"
+     android:layout_height="200dp"
+     android:scaleType="centerCrop"
+     android:src="@mipmap/ic_launcher_round"/>
  <Button
      android:id="@+id/btnGuardarAmigo"
      android:text="Guardar Amigo"
