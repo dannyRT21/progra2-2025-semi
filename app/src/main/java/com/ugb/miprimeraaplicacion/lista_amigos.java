@@ -65,7 +65,8 @@ public class lista_amigos extends Activity {
         try {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
             posicion = info.position;
-            menu.setHeaderTitle(jsonArray.getJSONObject(posicion).getString("nombre"));
+            menu.setHeaderTitle(jsonArray.getJSONObject(posicion).getJSONObject("value").getString(String.valueOf(String.valueOf(Integer.parseInt("nombre")))));//aca copiloto me metio algo raro xd pero no se que es xd deberia dejar de copiar y pegar
+
         } catch (Exception e) {
             mostrarMsg("Error: " + e.getMessage());
         }
@@ -77,7 +78,7 @@ public class lista_amigos extends Activity {
                 abriVentana();
             }else if( item.getItemId()==R.id.mnxModificar){
                 parametros.putString("accion", "modificar");
-                parametros.putString("amigos", jsonArray.getJSONObject(posicion).toString());
+                parametros.putString("amigos", jsonArray.getJSONObject(posicion).getJSONArray("value").toString());
                 abriVentana();
             } else if (item.getItemId()==R.id.mnxEliminar) {
                 eliminarAmigo();
@@ -90,13 +91,13 @@ public class lista_amigos extends Activity {
     }
     private void eliminarAmigo(){
         try{
-            String nombre = jsonArray.getJSONObject(posicion).getString("nombre");
+            String nombre = jsonArray.getJSONObject(posicion).getJSONObject("value").getString("nombre");
             AlertDialog.Builder confirmacion = new AlertDialog.Builder(this);
             confirmacion.setTitle("Esta seguro de eliminar a: ");
             confirmacion.setMessage(nombre);
             confirmacion.setPositiveButton("Si", (dialog, which) -> {
                 try {
-                    String respuesta = db.administrar_amigos("eliminar", new String[]{jsonArray.getJSONObject(posicion).getString("idAmigo")});
+                    String respuesta = db.administrar_amigos("eliminar", new String[]{jsonArray.getJSONObject(posicion).getJSONObject("value").getString("idAmigo")});
                     if(respuesta.equals("ok")) {
                         obtenerDatosAmigos();
                         mostrarMsg("Registro eliminado con exito");
@@ -177,7 +178,7 @@ public class lista_amigos extends Activity {
                             jsonObject.getString("telefono"),
                             jsonObject.getString("email"),
                             jsonObject.getString("dui"),
-                            jsonObject.getString("foto")
+                            jsonObject.getString("urlfoto")
                     );
                     alAmigos.add(misAmigos);
                 }
