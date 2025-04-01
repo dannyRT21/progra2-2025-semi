@@ -15,16 +15,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import androidx.appcompat.app.AlertDialog;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import org.json.JSONObject;
-
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -40,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     Intent tomarFotoIntent;
     utilidades utls;
     detectarInternet di;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         mostrarDatos();
         tomarFoto();
     }
+
     private void mostrarDatos(){
         try {
             Bundle parametros = getIntent().getExtras();
@@ -91,38 +90,59 @@ public class MainActivity extends AppCompatActivity {
             mostrarMsg("Error: "+e.getMessage());
         }
     }
+
     private void tomarFoto(){
-        img.setOnClickListener(view->{
-            tomarFotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            File fotoAmigo = null;
-            try{
-                fotoAmigo = crearImagenAmigo();
-                if( fotoAmigo!=null ){
-                    Uri uriFotoAimgo = FileProvider.getUriForFile(MainActivity.this,
-                            "com.ugb.miprimeraaplicacion.fileprovider", fotoAmigo);
-                    tomarFotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, uriFotoAimgo);
-                    startActivityForResult(tomarFotoIntent, 1);
-                }else{
-                    mostrarMsg("Nose pudo crear la imagen.");
+        img.setOnClickListener(view -> {
+            mostrarOpciones();
+        });
+    }
+
+    private void mostrarOpciones() {
+        final CharSequence[] opciones = {"Tomar foto", "Seleccionar desde galería", "Cancelar"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Elige una opción");
+        builder.setItems(opciones, (dialog, which) -> {
+            if (opciones[which].equals("Tomar foto")) {
+                tomarFotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                File fotoAmigo = null;
+                try {
+                    fotoAmigo = crearImagenAmigo();
+                    if (fotoAmigo != null) {
+                        Uri uriFotoAmigo = FileProvider.getUriForFile(MainActivity.this,
+                                "com.ugb.miprimeraaplicacion.fileprovider", fotoAmigo);
+                        tomarFotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, uriFotoAmigo);
+                        startActivityForResult(tomarFotoIntent, 1);
+                    } else {
+                        mostrarMsg("No se pudo crear la imagen.");
+                    }
+                } catch (Exception e) {
+                    mostrarMsg("Error: " + e.getMessage());
                 }
-            }catch (Exception e){
-                mostrarMsg("Error: "+e.getMessage());
+            } else if (opciones[which].equals("Seleccionar desde galería")) {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, 2);
+            } else if (opciones[which].equals("Cancelar")) {
+                dialog.dismiss();
             }
         });
+        builder.show();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        try{
-            if( requestCode==1 && resultCode==RESULT_OK ){
-                //Bitmap imagenBitmap = BitmapFactory.decodeFile(urlCompletaFoto);
+        try {
+            if (requestCode == 1 && resultCode == RESULT_OK) {
                 img.setImageURI(Uri.parse(urlCompletaFoto));
-            }else{
-                mostrarMsg("No se tomo la foto.");
+            } else if (requestCode == 2 && resultCode == RESULT_OK && data != null) {
+                Uri selectedImage = data.getData();
+                urlCompletaFoto = selectedImage.toString();
+                img.setImageURI(selectedImage);
+            } else {
+                mostrarMsg("No se seleccionó ninguna imagen.");
             }
-        }catch (Exception e){
-            mostrarMsg("Error: "+e.getMessage());
+        } catch (Exception e) {
+            mostrarMsg("Error: " + e.getMessage());
         }
     }
 
@@ -137,13 +157,16 @@ public class MainActivity extends AppCompatActivity {
         urlCompletaFoto = image.getAbsolutePath();
         return image;
     }
+
     private void mostrarMsg(String msg){
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
     }
+
     private void abrirVentana(){
         Intent intent = new Intent(this, lista_amigos.class);
         startActivity(intent);
     }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void guardarAmigo() {
         try {
