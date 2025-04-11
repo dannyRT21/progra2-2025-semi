@@ -1,6 +1,8 @@
 package com.ugb.miprimeraaplicacion;
 
+
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -20,6 +22,7 @@ import androidx.annotation.NonNull;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -76,7 +79,7 @@ public class lista_producto extends Activity {
                 parametros.putString("Producto", jsonArray.getJSONObject(posicion).toString());
                 AbrirVentana();
             } else if (item.getItemId()==R.id.mnxEliminar) {
-
+                eliminarProducto();
             }
             return true;
         }catch (Exception e){
@@ -85,6 +88,35 @@ public class lista_producto extends Activity {
         }
     }
 
+    private void eliminarProducto() {
+        String nombre = null;
+        try {
+            nombre = jsonArray.getJSONObject(posicion).getString("nombre");
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        AlertDialog.Builder confirmacion = new AlertDialog.Builder(this);
+        confirmacion.setTitle("Esta seguro de eliminar el producto: " + nombre + "?");
+        confirmacion.setMessage(nombre);
+        confirmacion.setPositiveButton("Si", (dialog, which) -> {
+            try {
+                String respuesta = db.administrar_productos("eliminar", new String[]{jsonArray.getJSONObject(posicion).getString("idProducto")});
+                if (respuesta.equals("ok")) {
+                    ObtenerDatoProductos();
+                    mostrarMsg("Producto eliminado con éxito.");
+                } else {
+                    mostrarMsg("Error al eliminar el producto: " + respuesta);
+                }
+            } catch (Exception e) {
+                mostrarMsg("Error: " + e.getMessage());
+            }
+        });
+        confirmacion.setNegativeButton("No", (dialog, which) -> {
+            dialog.dismiss();
+        });
+        confirmacion.create().show();
+
+        }
     private void AbrirVentana() {
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtras(parametros);
@@ -155,23 +187,25 @@ public class lista_producto extends Activity {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 aProductos.clear();
                 String buscar = tempVal.getText().toString().trim().toLowerCase();
-                if( buscar.length()<=0){
+                if (buscar.length() <= 0) {
                     aProductos.addAll(aProductosCopia);
-                }else{
-                    for (productos item: aProductosCopia){
-                        if(item.getNombre().toLowerCase().contains(buscar) ||
+                } else {
+                    for (productos item : aProductosCopia) {
+                        if (item.getNombre().toLowerCase().contains(buscar) ||
                                 item.getIdProducto().toLowerCase().contains(buscar) ||
-                                item.getCodigo().toLowerCase().contains(buscar)){
+                                item.getCodigo().toLowerCase().contains(buscar)) {
                             aProductos.add(item);
                         }
                     }
                     ltsProductos.setAdapter(new AdaptadorProductos(getApplicationContext(), aProductos));
                 }
             }
+
             @Override
             public void afterTextChanged(Editable s) {
 

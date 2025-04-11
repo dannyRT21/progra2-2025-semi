@@ -1,10 +1,13 @@
 package com.ugb.miprimeraaplicacion;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,8 +65,9 @@ public class AdaptadorProductos extends BaseAdapter {
             tempVal = vista.findViewById(R.id.lblPrecioUnidad);
             tempVal.setText(String.valueOf(misProductos.getPrecio()));
 
-
-
+            ImageView img = vista.findViewById(R.id.imgFotoAdaptador);
+            Bitmap imagenBitmap = BitmapFactory.decodeFile(misProductos.getUrlFoto());
+            img.setImageBitmap(imagenBitmap);
 
         }catch (Exception e){
             Toast.makeText(context, "error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
