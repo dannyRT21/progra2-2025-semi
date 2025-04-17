@@ -39,7 +39,8 @@ public class lista_producto extends Activity {
     JSONObject jsonObject;
     productos misProductos;
     FloatingActionButton fab;
-
+    obtenerDatosServidor datosServidor;
+    detectarInternet di;
     int posicion = 0;
 
     @Override
@@ -49,11 +50,11 @@ public class lista_producto extends Activity {
 
         parametros.putString("accion", "nuevo");
         db = new DB(this);
-        ltsProductos = findViewById(R.id.ltsProductos); // Inicializar ListView
+        //ltsProductos = findViewById(R.id.ltsProductos); // Inicializar ListView
 
         fab = findViewById(R.id.fabRegresarProducto);
         fab.setOnClickListener(view -> AbrirVentana());
-        ObtenerDatoProductos(); // Llamar a la función para obtener datos
+        listarDatos();
         buscarProducto();
     }
     @Override
@@ -64,7 +65,7 @@ public class lista_producto extends Activity {
         try {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
             posicion = info.position;
-            menu.setHeaderTitle(jsonArray.getJSONObject(posicion).getString("codigo"));
+            menu.setHeaderTitle(jsonArray.getJSONObject(posicion).getJSONObject("value").getString("codigo"));
         } catch (Exception e) {
             mostrarMsg("Error: " + e.getMessage());
         }
@@ -76,7 +77,7 @@ public class lista_producto extends Activity {
                 AbrirVentana();
             }else if( item.getItemId()==R.id.mnxModificar){
                 parametros.putString("accion", "modificar");
-                parametros.putString("Producto", jsonArray.getJSONObject(posicion).toString());
+                parametros.putString("Producto", jsonArray.getJSONObject(posicion).getJSONObject("value").toString());
                 AbrirVentana();
             } else if (item.getItemId()==R.id.mnxEliminar) {
                 eliminarProducto();
@@ -89,38 +90,53 @@ public class lista_producto extends Activity {
     }
 
     private void eliminarProducto() {
-        String nombre = null;
         try {
-            nombre = jsonArray.getJSONObject(posicion).getString("nombre");
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-        AlertDialog.Builder confirmacion = new AlertDialog.Builder(this);
-        confirmacion.setTitle("Esta seguro de eliminar el producto: " + nombre + "?");
-        confirmacion.setMessage(nombre);
-        confirmacion.setPositiveButton("Si", (dialog, which) -> {
-            try {
-                String respuesta = db.administrar_productos("eliminar", new String[]{jsonArray.getJSONObject(posicion).getString("idProducto")});
-                if (respuesta.equals("ok")) {
-                    ObtenerDatoProductos();
-                    mostrarMsg("Producto eliminado con éxito.");
-                } else {
-                    mostrarMsg("Error al eliminar el producto: " + respuesta);
+            String nombre = jsonArray.getJSONObject(posicion).getJSONObject("value").getString("nombre");
+            AlertDialog.Builder confirmacion = new AlertDialog.Builder(this);
+            confirmacion.setTitle("Esta seguro de eliminar el producto: ");
+            confirmacion.setMessage(nombre);
+            confirmacion.setPositiveButton("Si", (dialog, which) -> {
+                try {
+                    String respuesta = db.administrar_productos("eliminar", new String[]{jsonArray.getJSONObject(posicion).getJSONObject("value").getString("idProducto")});
+                    if (respuesta.equals("ok")) {
+                        ObtenerDatoProductos();
+                        mostrarMsg("Producto eliminado con éxito.");
+                    } else {
+                        mostrarMsg("Error: " + respuesta);
+                    }
+                } catch (Exception e) {
+                    mostrarMsg("Error: " + e.getMessage());
                 }
-            } catch (Exception e) {
-                mostrarMsg("Error: " + e.getMessage());
-            }
-        });
-        confirmacion.setNegativeButton("No", (dialog, which) -> {
-            dialog.dismiss();
-        });
-        confirmacion.create().show();
-
+            });
+            confirmacion.setNegativeButton("No", (dialog, which) -> {
+                dialog.dismiss();
+            });
+            confirmacion.create().show();
+        } catch (Exception e) {
+            mostrarMsg("Error: " + e.getMessage());
         }
+    }
     private void AbrirVentana() {
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtras(parametros);
         startActivity(intent);
+    }
+
+    private void listarDatos() {
+        try {
+            di= new detectarInternet(this);
+            if (di.hayConexionInternet()) { // Online
+                datosServidor = new obtenerDatosServidor();
+                String respuesta = datosServidor.execute().get();
+                 jsonObject = new JSONObject(respuesta);
+                jsonArray = jsonObject.getJSONArray("rows");
+                mostrarDatosProductos();
+            } else { // Offline
+              ObtenerDatoProductos();
+            }
+        } catch (Exception e) {
+            mostrarMsg("Error: " + e.getMessage());
+        }
     }
 
     private void ObtenerDatoProductos() {
@@ -152,10 +168,12 @@ public class lista_producto extends Activity {
     private void mostrarDatosProductos() {
         try {
             if (jsonArray.length() > 0) {
+                ltsProductos = findViewById(R.id.ltsProductos);
                 aProductos.clear();
                 aProductosCopia.clear();
+
                 for (int i = 0; i < jsonArray.length(); i++) {
-                    jsonObject = jsonArray.getJSONObject(i);
+                    jsonObject = jsonArray.getJSONObject(i).getJSONObject("value");
                     misProductos = new productos(
                             jsonObject.getString("idProducto"),
                             jsonObject.getString("codigo"),
