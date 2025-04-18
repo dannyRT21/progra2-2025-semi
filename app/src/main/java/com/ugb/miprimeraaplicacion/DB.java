@@ -30,10 +30,10 @@ public class DB extends SQLiteOpenHelper {
                     sql = "INSERT INTO productos (codigo, nombre, presentacion, marca, precio, urlFoto) VALUES ('"+ datos[1] +"', '" + datos[2] + "', '" + datos[3] + "', '" + datos[4] + "', " + datos[5] + ", '" + datos[6] + "')"; // Ajustamos los campos
                     break;
                 case "modificar":
-                    sql = "UPDATE productos SET codigo = '" + datos[1] + "', nombre = '" + datos[2] + "', presentacion = '" + datos[3] + "', marca = '" + datos[4] + "', precio = " + datos[5] + ", urlFoto = '" + datos[6] + "' WHERE idProducto = " + datos[0]; // Ajustamos los campos
+                    sql = "UPDATE productos SET codigo = '" + datos[1] + "', nombre = '" + datos[2] + "', presentacion = '" + datos[3] + "', marca = '" + datos[4] + "', precio = " + datos[5] + ", urlFoto = '" + datos[6] + "' WHERE idProducto = '" + datos[0] + "'" ;// Ajustamos los campos
                     break;
                 case "eliminar":
-                    sql = "DELETE FROM productos WHERE idProducto = " + datos[0];
+                    sql = "DELETE FROM productos WHERE idProducto =  '"  + datos[0] + "'"; // Ajustamos los campos
                     break;
             }
 

@@ -93,13 +93,29 @@ public class lista_producto extends Activity {
         try {
             String nombre = jsonArray.getJSONObject(posicion).getJSONObject("value").getString("nombre");
             AlertDialog.Builder confirmacion = new AlertDialog.Builder(this);
-            confirmacion.setTitle("Esta seguro de eliminar el producto: ");
+            confirmacion.setTitle("¿Está seguro de eliminar el producto?");
             confirmacion.setMessage(nombre);
-            confirmacion.setPositiveButton("Si", (dialog, which) -> {
+            confirmacion.setPositiveButton("Sí", (dialog, which) -> {
                 try {
+                    di = new detectarInternet(this);
+                    if (di.hayConexionInternet()) { // Online
+                        JSONObject datosProducto = new JSONObject();
+                        String _id = jsonArray.getJSONObject(posicion).getJSONObject("value").getString("_id");
+                        String _rev = jsonArray.getJSONObject(posicion).getJSONObject("value").getString("_rev");
+                        String url = utilidades.url_mto + "/" + _id + "?rev=" + _rev;
+                        enviarDatosServidor objEnviarDatosServidor = new enviarDatosServidor(this);
+                        String respuesta = objEnviarDatosServidor.execute(datosProducto.toString(), "DELETE", url).get();
+                        JSONObject respuestaJSON = new JSONObject(respuesta);
+                        if (!respuestaJSON.getBoolean("ok")) {
+                            mostrarMsg("Producto eliminado con éxito.");
+                        } else {
+                            mostrarMsg("Error: " + respuesta);
+                        }
+                    }
+
                     String respuesta = db.administrar_productos("eliminar", new String[]{jsonArray.getJSONObject(posicion).getJSONObject("value").getString("idProducto")});
                     if (respuesta.equals("ok")) {
-                        ObtenerDatoProductos();
+                        listarDatos();
                         mostrarMsg("Producto eliminado con éxito.");
                     } else {
                         mostrarMsg("Error: " + respuesta);
