@@ -1,6 +1,11 @@
 package com.ugb.miprimeraaplicacion;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import java.util.Base64;
+
 
 public class utilidades {
     static String url_consulta = "http://192.168.202.92:5984/mandarino/_design/mandarino/_view/mandarino";

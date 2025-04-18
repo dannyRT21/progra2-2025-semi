@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DB extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "mandarino"; // Cambiamos el nombre de la base de datos
     private static final int DATABASE_VERSION = 1;
-    private static final String SQLdb = "CREATE TABLE productos (idProducto INTEGER PRIMARY KEY AUTOINCREMENT, codigo TEXT, nombre TEXT, presentacion TEXT, marca TEXT, precio REAL, urlFoto TEXT)"; // Cambiamos el nombre de la tabla y los campos
+    private static final String SQLdb = "CREATE TABLE productos (idProducto TEXT, codigo TEXT, nombre TEXT, presentacion TEXT, marca TEXT, precio REAL, urlFoto TEXT)"; // Cambiamos el nombre de la tabla y los campos
     public DB(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
