@@ -84,8 +84,18 @@ public class MainActivity extends AppCompatActivity {
                 tempVal = findViewById(R.id.txtPrecio);
                 tempVal.setText(datos.getString("precio"));
 
+                tempVal = findViewById(R.id.txtCosto);
+                tempVal.setText(datos.getString("costo"));
+
+                tempVal = findViewById(R.id.txtStock);
+                tempVal.setText(datos.getString("stock"));
+
                 urlCompletaFoto = datos.getString("urlFoto");
                 img.setImageURI(Uri.parse(urlCompletaFoto));
+
+
+
+
             } else {
                 idProducto = utls.generarUnicoId();
             }
@@ -171,6 +181,12 @@ public class MainActivity extends AppCompatActivity {
             tempVal = findViewById(R.id.txtPrecio);
             String precio = tempVal.getText().toString();
 
+            tempVal = findViewById(R.id.txtCosto);
+            String costo = tempVal.getText().toString();
+
+            tempVal = findViewById(R.id.txtStock);
+            String stock = tempVal.getText().toString();
+
             JSONObject datosProducto = new JSONObject();
             if (accion.equals("modificar")) {
                 datosProducto.put("_id", id);
@@ -183,6 +199,9 @@ public class MainActivity extends AppCompatActivity {
             datosProducto.put("presentacion", presentacion);
             datosProducto.put("marca", marca);
             datosProducto.put("precio", precio);
+            datosProducto.put("costo", costo);
+            datosProducto.put("stock", stock);
+
             datosProducto.put("urlFoto", urlCompletaFoto);
 
             di = new detectarInternet(this);
@@ -199,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            String[] datos = {idProducto, codigo, nombre, presentacion, marca, precio, urlCompletaFoto};
+            String[] datos = {idProducto, codigo, nombre, presentacion, marca, precio, costo, stock, urlCompletaFoto};
             db.administrar_productos(accion, datos);
 
             Toast.makeText(getApplicationContext(), "Registro guardado con éxito.", Toast.LENGTH_LONG).show();

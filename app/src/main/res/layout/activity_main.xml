@@ -95,6 +95,22 @@
        android:layout_width="match_parent"
        android:layout_height="wrap_content"/>
 
+   <EditText
+       android:id="@+id/txtCosto"
+       android:hint="Costo/unidad"
+       android:layout_marginTop="20dp"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"/>
+
+   <EditText
+       android:id="@+id/txtStock"
+       android:hint="Stock disponible"
+       android:layout_marginTop="20dp"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"/>
+
+
+
    <Button
        android:id="@+id/btnGuardarproducto"
        android:layout_width="284dp"

@@ -39,6 +39,7 @@ public class lista_producto extends Activity {
     JSONObject jsonObject;
     productos misProductos;
     FloatingActionButton fab;
+
     obtenerDatosServidor datosServidor;
     detectarInternet di;
     int posicion = 0;
@@ -169,6 +170,11 @@ public class lista_producto extends Activity {
                     jsonObject.put("marca", cProductos.getString(4));
                     jsonObject.put("precio", cProductos.getString(5));
                     jsonObject.put("urlFoto", cProductos.getString(6));
+                    jsonObject.put("costo", cProductos.getString(7));
+                    jsonObject.put("stock", cProductos.getString(8));
+
+
+
                     jsonArray.put(jsonObject);
                 } while (cProductos.moveToNext()); // Mover al siguiente registro
                 mostrarDatosProductos();
@@ -197,7 +203,9 @@ public class lista_producto extends Activity {
                             jsonObject.getString("presentacion"),
                             jsonObject.getString("marca"),
                             jsonObject.getString("precio"),
-                            jsonObject.getString("urlFoto")
+                            jsonObject.getString("urlFoto"),
+                            jsonObject.getString("costo"),
+                            jsonObject.getString("stock")
                     );
                     aProductos.add(misProductos);
                 }

@@ -9,6 +9,11 @@ public class productos {
     String precio;
     String urlFoto;
 
+     String costo;
+    String stock;
+
+
+
     public String getIdProducto() {
         return idProducto;
     }
@@ -65,7 +70,20 @@ public class productos {
         this.urlFoto = urlFoto;
     }
 
-    public productos(String idProducto, String codigo, String nombre, String presentacion, String marca, String precio, String urlFoto) {
+    public String getCosto() {
+        return costo;
+    }
+    public void setCosto(String costo) {
+        this.costo = costo;
+    }
+    public String getStock() {
+        return stock;
+    }
+    public void setStock(String stock) {
+        this.stock = stock;
+    }
+
+    public productos(String idProducto, String codigo, String nombre, String presentacion, String marca, String precio, String urlFoto, String costo, String stock) {
         this.idProducto = idProducto;
         this.codigo = codigo;
         this.nombre = nombre;
@@ -73,6 +91,9 @@ public class productos {
         this.marca = marca;
         this.precio = precio;
         this.urlFoto = urlFoto;
+        this.costo = costo;
+        this.stock = stock;
+
     }
 }
 

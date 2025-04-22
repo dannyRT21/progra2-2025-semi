@@ -65,6 +65,18 @@
             android:layout_height="wrap_content"
             android:text="$1.50"
             android:textSize="16sp"/>
+        <TextView
+            android:id="@+id/lblCosto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$22"
+            android:textSize="16sp"/>
+        <TextView
+            android:id="@+id/lblStock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$100"
+            android:textSize="16sp"/>
 
     </LinearLayout>
 

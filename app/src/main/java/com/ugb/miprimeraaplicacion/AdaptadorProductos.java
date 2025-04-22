@@ -1,5 +1,6 @@
 package com.ugb.miprimeraaplicacion;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -44,6 +45,7 @@ public class AdaptadorProductos extends BaseAdapter {
         return 0;
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -64,6 +66,15 @@ public class AdaptadorProductos extends BaseAdapter {
 
             tempVal = vista.findViewById(R.id.lblPrecioUnidad);
             tempVal.setText(String.valueOf(misProductos.getPrecio()));
+
+            tempVal = vista.findViewById(R.id.lblCosto);
+            tempVal.setText(String.valueOf(misProductos.getCosto()));
+
+            tempVal = vista.findViewById(R.id.lblStock);
+            tempVal.setText(String.valueOf(misProductos.getStock()));
+
+
+
 
             ImageView img = vista.findViewById(R.id.imgFotoAdaptador);
             Bitmap imagenBitmap = BitmapFactory.decodeFile(misProductos.getUrlFoto());
