@@ -63,15 +63,18 @@ public class MainActivity extends AppCompatActivity {
             tempVal = findViewById(R.id.txtTotal);
             String total = tempVal.getText().toString();
 
+            // Obtener la categoría seleccionada del Spinner
+            String categoria = spnCategoria.getSelectedItem().toString();
+
             // Validar que los campos no estén vacíos
-            if (fecha.isEmpty() || concepto.isEmpty() || total.isEmpty()) {
+            if (fecha.isEmpty() || concepto.isEmpty() || total.isEmpty() || categoria.isEmpty()) {
                 Toast.makeText(this, "Por favor, complete todos los campos.", Toast.LENGTH_LONG).show();
                 return;
             }
 
             // Preparar los datos para la base de datos
             String idUsuario = "1"; // ID del usuario (puedes obtenerlo dinámicamente si es necesario)
-            String[] datos = {"", idUsuario, "Categoría predeterminada", fecha, concepto, total};
+            String[] datos = {"", idUsuario, categoria, fecha, concepto, total};
 
             // Guardar en la base de datos
             String resultado = db.administrar_gastos("agregar", datos);
@@ -88,4 +91,3 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
-
