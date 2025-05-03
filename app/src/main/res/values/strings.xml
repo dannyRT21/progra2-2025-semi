@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">app de ahorro</string>
+    <string name="app_name">ahorro</string>
 
     <!-- String array para las categorías -->
     <string-array name="categorias">
