@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">app de ahorro</string>
 
+    <!-- String array para las categorías -->
+    <string-array name="categorias">
+        <item>Recibo de Luz</item>
+        <item>Recibo de Agua</item>
+        <item>Línea de Teléfono</item>
+        <item>Gastos Personales</item>
+        <item>Útiles Escolares</item>
+        <item>Artículos de Higiene</item>
+    </string-array>
 </resources>

@@ -5,13 +5,13 @@
     android:layout_height="match_parent">
 
  <ScrollView
+     android:id="@+id/scrollContainer"
      android:layout_width="match_parent"
      android:layout_height="match_parent">
 
-  <LinearLayout
+  <RelativeLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:orientation="vertical"
       android:padding="16dp">
 
    <View
@@ -22,10 +22,13 @@
        android:background="#01c5bb" />
 
    <TextView
+       android:id="@+id/tituloApp"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
-       android:layout_gravity="center_horizontal"
+       android:layout_below="@id/divsion"
+       android:layout_centerHorizontal="true"
        android:layout_marginBottom="20dp"
+       android:layout_marginTop="10dp"
        android:fontFamily="monospace"
        android:text="Rastreador de Gastos"
        android:textColor="#01c5bb"
@@ -36,54 +39,52 @@
        android:id="@+id/verGraficos"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
-       android:layout_gravity="center_horizontal"
+       android:layout_below="@id/tituloApp"
+       android:layout_centerHorizontal="true"
        android:layout_marginBottom="20dp"
        android:backgroundTint="#01c5bb"
        android:onClick="irAGraficas"
        android:text="Ver Gráficos de Gastos"
        android:textColor="@android:color/white" />
 
-   <LinearLayout
+   <!-- Fila usuario y total -->
+   <RelativeLayout
+       android:id="@+id/contenedorUsuario"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:orientation="horizontal"
-       android:gravity="center_vertical">
+       android:layout_below="@id/verGraficos"
+       android:layout_marginBottom="20dp">
 
-    <FrameLayout
+    <Button
+        android:id="@+id/dropdownMenuButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-     <Button
-         android:id="@+id/dropdownMenuButton"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:drawablePadding="8dp"
-         android:text="Nombre del Usuario"
-         android:textSize="18sp"
-         android:textColor="#495057"
-         style="?android:attr/borderlessButtonStyle" />
-
-    </FrameLayout>
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:text="Nombre del Usuario"
+        android:textSize="18sp"
+        android:textColor="#495057"
+        style="?android:attr/borderlessButtonStyle" />
 
     <TextView
         android:id="@+id/gastoTotal"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="end"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
         android:text="Gasto Total: $0.00"
         android:textColor="#6c757d"
         android:textSize="16sp" />
+   </RelativeLayout>
 
-   </LinearLayout>
-
-   <LinearLayout
+   <!-- Sección de ingreso de datos -->
+   <RelativeLayout
+       android:id="@+id/contenedorDatos"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:orientation="vertical"
+       android:layout_below="@id/contenedorUsuario"
+       android:layout_marginTop="20dp"
        android:background="#F8F8F8"
        android:padding="16dp"
-       android:layout_marginTop="20dp"
        android:elevation="2dp">
 
     <Spinner
@@ -93,87 +94,102 @@
         android:layout_marginBottom="10dp" />
 
     <EditText
-        android:id="@+id/lblfecha"
+        android:id="@+id/txtfechaGasto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="date"
+        android:layout_below="@id/spncategoria"
+        android:layout_marginBottom="10dp"
         android:hint="Fecha"
-        android:layout_marginBottom="10dp" />
+        android:inputType="date" />
 
     <EditText
-        android:id="@+id/lblconcepto"
+        android:id="@+id/txtconceptoGasto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="text"
+        android:layout_below="@id/txtfechaGasto"
+        android:layout_marginBottom="10dp"
         android:hint="Concepto"
-        android:layout_marginBottom="10dp" />
+        android:inputType="text" />
 
     <EditText
-        android:id="@+id/lbltotal"
+        android:id="@+id/txtTotal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
+        android:layout_below="@id/txtconceptoGasto"
+        android:layout_marginBottom="10dp"
         android:hint="0.00"
-        android:layout_marginBottom="10dp" />
+        android:inputType="numberDecimal" />
+
+    <ImageButton
+        android:id="@+id/imgFotoFactura"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtTotal"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="#01c5bb"
+        android:padding="10dp"
+        android:src="@mipmap/ic_launcher_round" />
 
     <Button
         android:id="@+id/btnguardarGasto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/imgFotoFactura"
+        android:layout_marginTop="20dp"
         android:backgroundTint="#16b7bd"
         android:text="Guardar"
         android:textColor="@android:color/white" />
+   </RelativeLayout>
 
-   </LinearLayout>
-
-   <LinearLayout
+   <!-- Sección búsqueda -->
+   <RelativeLayout
+       android:id="@+id/contenedorBusqueda"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:orientation="vertical"
+       android:layout_below="@id/contenedorDatos"
+       android:layout_marginTop="20dp"
        android:background="#F8F8F8"
        android:padding="16dp"
-       android:layout_marginTop="20dp"
        android:elevation="2dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <Spinner
+        android:id="@+id/searchCategory"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/searchDate"
+        android:layout_weight="1"
+        android:layout_marginEnd="8dp"
+        android:layout_alignTop="@id/searchDate"
+        android:entries="@array/categorias" />
 
-     <Spinner
-         android:id="@+id/searchCategory"
-         android:layout_width="0dp"
-         android:layout_height="wrap_content"
-         android:layout_weight="1"
-         android:layout_marginEnd="8dp" />
+    <EditText
+        android:id="@+id/searchDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_weight="1"
+        android:hint="Fecha"
+        android:inputType="date" />
 
-     <EditText
-         android:id="@+id/searchDate"
-         android:layout_width="0dp"
-         android:layout_height="wrap_content"
-         android:layout_weight="1"
-         android:inputType="date"
-         android:hint="Fecha"
-         android:layout_marginEnd="8dp" />
-
-     <Button
-         android:id="@+id/btnbuscarGastos"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:backgroundTint="#01c5bb"
-         android:onClick="buscarGastos"
-         android:text="Buscar"
-         android:textColor="@android:color/white" />
-
-    </LinearLayout>
+    <Button
+        android:id="@+id/btnbuscarGastos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:backgroundTint="#01c5bb"
+        android:onClick="buscarGastos"
+        android:text="Buscar"
+        android:textColor="@android:color/white" />
 
     <ListView
         android:id="@+id/tablaGastos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/btnbuscarGastos"
         android:layout_marginTop="16dp" />
-   </LinearLayout>
-
-  </LinearLayout>
+   </RelativeLayout>
+  </RelativeLayout>
  </ScrollView>
 </RelativeLayout>

@@ -6,38 +6,63 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DB extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "mandarino"; // Cambiamos el nombre de la base de datos
+    private static final String DATABASE_NAME = "pisto"; // Nombre de la base de datos
     private static final int DATABASE_VERSION = 1;
-    private static final String SQLdb = "CREATE TABLE productos (idProducto INTEGER PRIMARY KEY AUTOINCREMENT, codigo TEXT, nombre TEXT, presentacion TEXT, marca TEXT, precio REAL, urlFoto TEXT)"; // Cambiamos el nombre de la tabla y los campos
+
+    // Consulta para crear la tabla 'usuarios'
+    private static final String SQL_CREATE_USUARIOS =
+            "CREATE TABLE usuarios (" +
+                    "idUsuario INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "usuario TEXT NOT NULL, " +
+                    "clave TEXT NOT NULL, " +
+                    "nombre TEXT NOT NULL, " +
+                    "direccion TEXT NOT NULL, " +
+                    "telefono TEXT NOT NULL)";
+
+    // Consulta para crear la tabla 'Gastos'
+    private static final String SQL_CREATE_GASTOS =
+            "CREATE TABLE Gastos (" +
+                    "IdGasto INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "IdUsuario INTEGER NOT NULL, " +
+                    "Categoria TEXT NOT NULL, " +
+                    "Fecha TEXT NOT NULL, " +
+                    "Concepto TEXT NOT NULL, " +
+                    "Total REAL NOT NULL, " +
+                    "FOREIGN KEY (IdUsuario) REFERENCES usuarios (idUsuario))";
+
     public DB(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(SQLdb);
+        db.execSQL(SQL_CREATE_USUARIOS);
+        db.execSQL(SQL_CREATE_GASTOS);
     }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        //Actualizar la estrucutra de la base de datos si es necesario
+        // Aquí puedes manejar actualizaciones de la base de datos si cambian las versiones
     }
-    public String administrar_productos(String accion, String[] datos) { // Cambiamos el nombre del método
-        try{
+
+    public String administrar_usuarios(String accion, String[] datos) {
+        try {
             SQLiteDatabase db = getWritableDatabase();
             String mensaje = "ok", sql = "";
             switch (accion) {
                 case "agregar":
-                    sql = "INSERT INTO productos (codigo, nombre, presentacion, marca, precio, urlFoto) VALUES ('"+ datos[1] +"', '" + datos[2] + "', '" + datos[3] + "', '" + datos[4] + "', " + datos[5] + ", '" + datos[6] + "')"; // Ajustamos los campos
+                    sql = "INSERT INTO usuarios (usuario, clave, nombre, direccion, telefono) " +
+                            "VALUES ('" + datos[1] + "', '" + datos[2] + "', '" + datos[3] + "', '" + datos[4] + "', '" + datos[5] + "')";
                     break;
                 case "modificar":
-                    sql = "UPDATE productos SET codigo = '" + datos[1] + "', nombre = '" + datos[2] + "', presentacion = '" + datos[3] + "', marca = '" + datos[4] + "', precio = " + datos[5] + ", urlFoto = '" + datos[6] + "' WHERE idProducto = " + datos[0]; // Ajustamos los campos
+                    sql = "UPDATE usuarios SET " +
+                            "usuario = '" + datos[1] + "', clave = '" + datos[2] + "', nombre = '" + datos[3] + "', " +
+                            "direccion = '" + datos[4] + "', telefono = '" + datos[5] + "' WHERE idUsuario = " + datos[0];
                     break;
                 case "eliminar":
-                    sql = "DELETE FROM productos WHERE idProducto = " + datos[0];
+                    sql = "DELETE FROM usuarios WHERE idUsuario = " + datos[0];
                     break;
             }
-
-
             db.execSQL(sql);
             db.close();
             return mensaje;
@@ -45,8 +70,40 @@ public class DB extends SQLiteOpenHelper {
             return e.getMessage();
         }
     }
-    public Cursor lista_productos() {
+
+    public Cursor lista_usuarios() {
         SQLiteDatabase db = getReadableDatabase();
-        return db.rawQuery("SELECT * FROM productos", null); // Cambiamos el nombre de la tabla
+        return db.rawQuery("SELECT * FROM usuarios", null);
+    }
+
+    public String administrar_gastos(String accion, String[] datos) {
+        try {
+            SQLiteDatabase db = getWritableDatabase();
+            String mensaje = "ok", sql = "";
+            switch (accion) {
+                case "agregar":
+                    sql = "INSERT INTO Gastos (IdUsuario, Categoria, Fecha, Concepto, Total) " +
+                            "VALUES (" + datos[1] + ", '" + datos[2] + "', '" + datos[3] + "', '" + datos[4] + "', " + datos[5] + ")";
+                    break;
+                case "modificar":
+                    sql = "UPDATE Gastos SET " +
+                            "IdUsuario = " + datos[1] + ", Categoria = '" + datos[2] + "', Fecha = '" + datos[3] + "', " +
+                            "Concepto = '" + datos[4] + "', Total = " + datos[5] + " WHERE IdGasto = " + datos[0];
+                    break;
+                case "eliminar":
+                    sql = "DELETE FROM Gastos WHERE IdGasto = " + datos[0];
+                    break;
+            }
+            db.execSQL(sql);
+            db.close();
+            return mensaje;
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public Cursor lista_gastos() {
+        SQLiteDatabase db = getReadableDatabase();
+        return db.rawQuery("SELECT * FROM Gastos", null);
     }
 }

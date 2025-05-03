@@ -11,7 +11,7 @@
         android:layout_margin="30dp"
         android:gravity="center_horizontal"
         android:elevation="7dp"
-        android:cornerRadius="10dp">
+       >
 
         <TextView
             android:layout_width="wrap_content"
