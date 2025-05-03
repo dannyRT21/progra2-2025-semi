@@ -29,15 +29,9 @@
         android:orientation="vertical"
         android:layout_marginStart="16dp">
 
-        <TextView
-            android:id="@+id/lblCodProducto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Código: 001"
-            android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/lblProducto"
+            android:id="@+id/lblCategoriaAdaptador"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Manzanas"
@@ -45,7 +39,7 @@
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/lblpresentacion"
+            android:id="@+id/lblFechaAdaptador"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Presentacion"
@@ -53,14 +47,14 @@
         />
 
         <TextView
-            android:id="@+id/lblMarca"
+            android:id="@+id/lblConceptoAdaptador"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Del Monte"
+            android:text="cosito"
             android:textSize="16sp"/>
 
         <TextView
-            android:id="@+id/lblPrecioUnidad"
+            android:id="@+id/lblTotalAdaptador"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="$1.50"

@@ -1,60 +1,77 @@
 package com.ugb.miprimeraaplicacion;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 public class MainActivity extends AppCompatActivity {
-    Button btnGuardar;
+
+    FloatingActionButton fab;
+    Button btn;
     Spinner spnCategoria;
-    EditText txtFechaGasto, txtConceptoGasto, txtTotal;
+    TextView tempVal;
     DB db;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Inicializar la base de datos
+
         db = new DB(this);
+        btn = findViewById(R.id.btnguardarGasto);
+        btn.setOnClickListener(View -> guardarAmigo());
 
-        // Referencias a los elementos de la interfaz
+        fab = findViewById(R.id.fabVerGastos);
+        fab.setOnClickListener(view -> AbrirVentana());
         spnCategoria = findViewById(R.id.spncategoria);
-        txtFechaGasto = findViewById(R.id.txtfechaGasto);
-        txtConceptoGasto = findViewById(R.id.txtconceptoGasto);
-        txtTotal = findViewById(R.id.txtTotal);
-        btnGuardar = findViewById(R.id.btnguardarGasto);
 
-        // Configurar el botón para guardar
-        btnGuardar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                guardarAmigo();
-            }
-        });
+        //btnGuardar = findViewById(R.id.btnguardarGasto);
+        // btnGuardar.setOnClickListener(View ->  guardarAmigo());
+        // txtFechaGasto = findViewById(R.id.txtfechaGasto);
+        // txtConceptoGasto = findViewById(R.id.txtconceptoGasto);
+        // txtTotal = findViewById(R.id.txtTotal);
+        // btnGuardar = findViewById(R.id.btnguardarGasto);
+
+    }
+
+    private void AbrirVentana() {
+        Intent intent = new Intent(this, lista_gastos.class);
+        startActivity(intent);
+
     }
 
     private void guardarAmigo() {
         try {
             // Obtener los valores de los campos
-            String categoria = spnCategoria.getSelectedItem().toString();
-            String fecha = txtFechaGasto.getText().toString();
-            String concepto = txtConceptoGasto.getText().toString();
-            String total = txtTotal.getText().toString();
+            tempVal = findViewById(R.id.txtfechaGasto);
+            String fecha = tempVal.getText().toString();
+
+            tempVal = findViewById(R.id.txtconceptoGasto);
+            String concepto = tempVal.getText().toString();
+
+            tempVal = findViewById(R.id.txtTotal);
+            String total = tempVal.getText().toString();
 
             // Validar que los campos no estén vacíos
-            if (categoria.isEmpty() || fecha.isEmpty() || concepto.isEmpty() || total.isEmpty()) {
+            if (fecha.isEmpty() || concepto.isEmpty() || total.isEmpty()) {
                 Toast.makeText(this, "Por favor, complete todos los campos.", Toast.LENGTH_LONG).show();
                 return;
             }
 
             // Preparar los datos para la base de datos
-            String[] datos = {"", "1", categoria, fecha, concepto, total};
+            String idUsuario = "1"; // ID del usuario (puedes obtenerlo dinámicamente si es necesario)
+            String[] datos = {"", idUsuario, "Categoría predeterminada", fecha, concepto, total};
 
             // Guardar en la base de datos
             String resultado = db.administrar_gastos("agregar", datos);
@@ -62,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
             // Mostrar mensaje de éxito o error
             if (resultado.equals("ok")) {
                 Toast.makeText(this, "Registro guardado con éxito.", Toast.LENGTH_LONG).show();
+                AbrirVentana();
             } else {
                 Toast.makeText(this, "Error al guardar: " + resultado, Toast.LENGTH_LONG).show();
             }
@@ -70,3 +88,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
+

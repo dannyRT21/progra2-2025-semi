@@ -1,11 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F8F8F8"
+    android:padding="16dp"
     tools:context=".lista_gastos">
 
-  </androidx.constraintlayout.widget.ConstraintLayout>
+  <!-- Spinner para filtrar categoría -->
+  <Spinner
+      android:id="@+id/searchCategory"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignParentTop="true"
+      android:layout_marginBottom="8dp"
+      android:entries="@array/categorias" />
+
+  <!-- Barra de búsqueda -->
+  <EditText
+      android:id="@+id/txtBuscarGasto"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_below="@id/searchCategory"
+      android:hint="Buscar productos"
+      android:padding="12dp"
+      android:drawableStart="@android:drawable/ic_menu_search"
+      android:drawablePadding="8dp"
+      android:layout_marginBottom="16dp" />
+
+  <!-- Lista de resultados -->
+  <ListView
+      android:id="@+id/ltsGastos"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_below="@id/txtBuscarGasto"
+      android:divider="@android:color/darker_gray"
+      android:dividerHeight="1dp" />
+
+  <!-- Botón flotante -->
+  <com.google.android.material.floatingactionbutton.FloatingActionButton
+      android:id="@+id/fabRegresarGasto"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentEnd="true"
+      android:layout_alignParentBottom="true"
+      android:layout_margin="16dp"
+      android:src="@android:drawable/ic_input_add"
+      app:backgroundTint="@android:color/holo_blue_light"
+      app:rippleColor="@android:color/darker_gray" />
+
+</RelativeLayout>
