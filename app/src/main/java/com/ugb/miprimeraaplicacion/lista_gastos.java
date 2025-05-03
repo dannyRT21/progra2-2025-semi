@@ -1,13 +1,23 @@
 package com.ugb.miprimeraaplicacion;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -23,8 +33,8 @@ import java.util.ArrayList;
 
 public class lista_gastos extends Activity {
 
-    FloatingActionButton fab;
     Bundle parametros = new Bundle();
+    FloatingActionButton fab;
     DB db;
     Cursor cGastos;
 
@@ -36,22 +46,88 @@ public class lista_gastos extends Activity {
     JSONObject jsonObject;
     Gastos misGastos;
 
+    int posicion = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_gastos);
 
+        parametros.putString("accion", "nuevo");
         db = new DB(this);
         obtenerDatosGastos();
 
         fab = findViewById(R.id.fabRegresarGasto);
-        fab.setOnClickListener(view -> {
-           ;
-        abrirVentana();});
+        fab.setOnClickListener(view -> abrirVentana());
+        buscarGastos();
+
     }
 
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.mimenu, menu);
+        try {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+            posicion = info.position;
+            // Cambia "gasto" por "Concepto" o la clave correcta
+            menu.setHeaderTitle(jsonArray.getJSONObject(posicion).getString("Concepto"));
+        } catch (Exception e) {
+            mostrarMsg("Error: " + e.getMessage());
+        }
+    }
+
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        try {
+            if (item.getItemId() == R.id.mnxNuevo) {
+                abrirVentana();
+
+            } else if (item.getItemId() == R.id.mnxModificar) {
+                parametros.putString("accion", "modificar");
+                // Cambia "idGasto" por "IdGasto" para que coincida con las claves del JSON
+                parametros.putString("gastos", jsonArray.getJSONObject(posicion).toString());
+                abrirVentana();
+
+            } else if (item.getItemId() == R.id.mnxEliminar) {
+               eliminarGasto();
+            }
+            return true;
+        } catch (Exception e) {
+            mostrarMsg("Error: " + e.getMessage());
+            return super.onContextItemSelected(item);
+        }
+    }
+
+    private void eliminarGasto(){
+        try{
+            String IdGasto = jsonArray.getJSONObject(posicion).getString("IdGasto");
+            String Categoria = jsonArray.getJSONObject(posicion).getString("Categoria");
+            AlertDialog.Builder confirmacion = new AlertDialog.Builder(this);
+            confirmacion.setTitle("Esta seguro de eliminar a: ");
+            confirmacion.setMessage(IdGasto + " " + Categoria);
+            confirmacion.setPositiveButton("Si", (dialog, which) -> {
+                try {
+                    String respuesta = db.administrar_gastos("eliminar", new String[]{jsonArray.getJSONObject(posicion).getString("IdGasto")});
+                    if(respuesta.equals("ok")) {
+                        obtenerDatosGastos();
+                        mostrarMsg("Registro eliminado");
+                        mostrarMsg("Error: " + respuesta);
+                    }
+                }catch (Exception e){
+                    mostrarMsg("Error: " + e.getMessage());
+                }
+            });
+            confirmacion.setNegativeButton("No", (dialog, which) -> {
+                dialog.dismiss();
+            });
+            confirmacion.create().show();
+        }catch (Exception e){
+            mostrarMsg("Error: " + e.getMessage());
+        }
+    }
     private void abrirVentana() {
         Intent intent = new Intent(this, MainActivity.class);
+      intent.putExtras(parametros);
         startActivity(intent);
     }
 
@@ -99,6 +175,7 @@ public class lista_gastos extends Activity {
                             jsonObject.getString("Total"));
 
                     alGastos.add(misGastos);
+                    alGastosCopia.add(misGastos);
                     ltsGastos.setAdapter(new AdaptadorGastos(this, alGastos));
                     registerForContextMenu(ltsGastos);
                     }
@@ -111,6 +188,37 @@ public class lista_gastos extends Activity {
             mostrarMsg("Error: " + e.getMessage());
         }
 
+    }
+    private void buscarGastos(){
+        TextView tempVal = findViewById(R.id.txtBuscarGasto);
+        tempVal.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                alGastos.clear();
+                String buscar = tempVal.getText().toString().trim().toLowerCase();
+                if( buscar.length()<=0){
+                    alGastos.addAll(alGastosCopia);
+                }else{
+                    for (Gastos item: alGastosCopia){
+                        if(item.getCategoria().toLowerCase().contains(buscar) ||
+                                item.getFecha().toLowerCase().contains(buscar) ||
+                                item.getTotal().toLowerCase().contains(buscar)||
+                                    item.getConcepto().toLowerCase().contains(buscar)){
+                            alGastos.add(item);
+                        }
+                    }
+                    ltsGastos.setAdapter(new AdaptadorGastos(getApplicationContext(), alGastos));
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
         private void mostrarMsg (String msg){
             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();

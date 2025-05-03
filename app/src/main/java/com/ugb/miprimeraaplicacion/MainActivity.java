@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.json.JSONObject;
+
 public class MainActivity extends AppCompatActivity {
 
     FloatingActionButton fab;
@@ -20,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     Spinner spnCategoria;
     TextView tempVal;
     DB db;
+    String accion = "nuevo", idGasto = "";
 
 
     @Override
@@ -35,15 +38,45 @@ public class MainActivity extends AppCompatActivity {
         fab = findViewById(R.id.fabVerGastos);
         fab.setOnClickListener(view -> AbrirVentana());
         spnCategoria = findViewById(R.id.spncategoria);
-
-        //btnGuardar = findViewById(R.id.btnguardarGasto);
-        // btnGuardar.setOnClickListener(View ->  guardarAmigo());
-        // txtFechaGasto = findViewById(R.id.txtfechaGasto);
-        // txtConceptoGasto = findViewById(R.id.txtconceptoGasto);
-        // txtTotal = findViewById(R.id.txtTotal);
-        // btnGuardar = findViewById(R.id.btnguardarGasto);
-
+        mostrarDatos();
     }
+
+    private void mostrarDatos() {
+        try {
+            Bundle parametros = getIntent().getExtras();
+            accion = parametros.getString("accion");
+            if (accion.equals("modificar")) {
+                JSONObject datos = new JSONObject(parametros.getString("gastos"));
+                idGasto = datos.getString("IdGasto");
+
+                tempVal = findViewById(R.id.txtfechaGasto);
+                tempVal.setText(datos.getString("Fecha"));
+
+                tempVal = findViewById(R.id.txtconceptoGasto);
+                tempVal.setText(datos.getString("Concepto"));
+
+                tempVal = findViewById(R.id.txtTotal);
+                tempVal.setText(datos.getString("Total"));
+
+                // Aquí puedes establecer la categoría seleccionada en el Spinner
+                spnCategoria.setSelection(obtenerPosicionCategoria(datos.getString("Categoria")));
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private int obtenerPosicionCategoria(String categoria) {
+        // Aquí debes implementar la lógica para obtener la posición de la categoría en el Spinner
+        // Por ejemplo, puedes recorrer el Spinner y comparar los valores
+        for (int i = 0; i < spnCategoria.getCount(); i++) {
+            if (spnCategoria.getItemAtPosition(i).toString().equals(categoria)) {
+                return i;
+            }
+        }
+        return 0; // Devuelve 0 si no se encuentra la categoría
+    }
+
 
     private void AbrirVentana() {
         Intent intent = new Intent(this, lista_gastos.class);
@@ -74,10 +107,10 @@ public class MainActivity extends AppCompatActivity {
 
             // Preparar los datos para la base de datos
             String idUsuario = "1"; // ID del usuario (puedes obtenerlo dinámicamente si es necesario)
-            String[] datos = {"", idUsuario, categoria, fecha, concepto, total};
+            String[] datos = {idGasto, idUsuario, categoria, fecha, concepto, total};
 
             // Guardar en la base de datos
-            String resultado = db.administrar_gastos("agregar", datos);
+            String resultado = db.administrar_gastos(accion, datos);
 
             // Mostrar mensaje de éxito o error
             if (resultado.equals("ok")) {
@@ -90,4 +123,6 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
+
+
 }
