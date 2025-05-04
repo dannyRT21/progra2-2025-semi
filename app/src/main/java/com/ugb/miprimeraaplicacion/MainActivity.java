@@ -54,15 +54,17 @@ public class MainActivity extends AppCompatActivity {
     Intent tomarfotoIntent;
     private String idUsuario;
 
-
-
+    Button btnCerrarSesion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Recibe el idUsuario del Intent como entero
+        btnCerrarSesion = findViewById(R.id.btnCerrarSesion);
+
+        btnCerrarSesion.setOnClickListener(view -> cerrarSesion());
+
         idUsuario = String.valueOf(getIntent().getIntExtra("idUsuario", -1));
 
         if (idUsuario.equals(1)) {
@@ -84,6 +86,16 @@ public class MainActivity extends AppCompatActivity {
         tomarfoto();
 
         img.setOnClickListener(view -> mostrarOpciones());
+    }
+
+    private void cerrarSesion() {
+        Toast.makeText(this, "Sesión cerrada correctamente.", Toast.LENGTH_SHORT).show();
+
+        // Redirigir al usuario a la pantalla de inicio de sesión
+        Intent intent = new Intent(this, login_vista.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // Limpia el historial
+        startActivity(intent);
+        finish(); // Finaliza la actividad actual
     }
     private void mostrarOpciones() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

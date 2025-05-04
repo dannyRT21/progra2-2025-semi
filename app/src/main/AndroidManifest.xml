@@ -15,7 +15,7 @@
             android:exported="true"/>
         <activity
 
-            android:name=".registrar_user"
+            android:name=".login_vista"
             android:exported="true">
 
             <intent-filter>
@@ -26,7 +26,7 @@
         </activity>
         <activity android:name=".lista_gastos" android:exported="true" />
         <activity
-            android:name=".login_vista"
+            android:name=".registrar_user"
             android:exported="true" />
         <provider
             android:authorities = "com.ugb.miprimeraaplicacion.fileprovider"

@@ -5,26 +5,19 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F8F8"
+    android:background="@android:color/holo_blue_light"
     android:padding="16dp"
     tools:context=".lista_gastos">
 
-  <!-- Spinner para filtrar categoría -->
-  <Spinner
-      android:id="@+id/searchCategory"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_alignParentTop="true"
-      android:layout_marginBottom="8dp"
-      android:entries="@array/categorias" />
 
   <!-- Barra de búsqueda -->
   <EditText
       android:id="@+id/txtBuscarGasto"
+      app:backgroundTint="@android:color/white"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_below="@id/searchCategory"
       android:hint="Buscar productos"
+      android:background="@android:color/white"
       android:padding="12dp"
       android:drawableStart="@android:drawable/ic_menu_search"
       android:drawablePadding="8dp"
@@ -33,8 +26,10 @@
   <!-- Lista de resultados -->
   <ListView
       android:id="@+id/ltsGastos"
+      app:backgroundTint="@android:color/white"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
+      android:background="@android:color/white"
       android:layout_below="@id/txtBuscarGasto"
       android:divider="@android:color/darker_gray"
       android:dividerHeight="1dp" />
