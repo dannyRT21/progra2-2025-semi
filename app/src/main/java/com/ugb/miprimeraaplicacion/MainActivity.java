@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     String urlCompletaFoto = "";
 
     Intent tomarfotoIntent;
+    private String idUsuario;
 
 
 
@@ -61,6 +62,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Recibe el idUsuario del Intent como entero
+        idUsuario = String.valueOf(getIntent().getIntExtra("idUsuario", -1));
+
+        if (idUsuario.equals(1)) {
+            Toast.makeText(this, "Error: Usuario no identificado.", Toast.LENGTH_LONG).show();
+            finish(); // Cierra la actividad si no se identifica al usuario
+            return;
+        }
+
         configurarValidacionFecha();
         db = new DB(this);
         btn = findViewById(R.id.btnguardarGasto);
@@ -69,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
         fab = findViewById(R.id.fabVerGastos);
         fab.setOnClickListener(view -> AbrirVentana());
         spnCategoria = findViewById(R.id.spncategoria);
-
 
         mostrarDatos();
         tomarfoto();
@@ -283,17 +292,16 @@ public class MainActivity extends AppCompatActivity {
         try {
             // Obtener los valores de los campos
             tempVal = findViewById(R.id.txtfechaGasto);
-            String fecha = tempVal.getText().toString();
+            String fecha = tempVal.getText().toString().trim();
 
             tempVal = findViewById(R.id.txtconceptoGasto);
-            String concepto = tempVal.getText().toString();
+            String concepto = tempVal.getText().toString().trim();
 
             tempVal = findViewById(R.id.txtTotal);
-            String total = tempVal.getText().toString();
-
+            String total = tempVal.getText().toString().trim();
 
             // Obtener la categoría seleccionada del Spinner
-            String categoria = spnCategoria.getSelectedItem().toString();
+            String categoria = spnCategoria.getSelectedItem().toString().trim();
 
             // Validar que los campos no estén vacíos
             if (fecha.isEmpty() || concepto.isEmpty() || total.isEmpty() || categoria.isEmpty()) {
@@ -301,8 +309,18 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
+            // Validar que idUsuario no sea null
+            if (idUsuario == null || idUsuario.isEmpty()) {
+                Toast.makeText(this, "Error: Usuario no identificado.", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            // Validar que urlCompletaFoto no sea null (opcional si es requerida)
+            if (urlCompletaFoto == null || urlCompletaFoto.isEmpty()) {
+                urlCompletaFoto = ""; // Asignar un valor vacío si no es obligatorio
+            }
+
             // Preparar los datos para la base de datos
-            String idUsuario = "1"; // ID del usuario (puedes obtenerlo dinámicamente si es necesario)
             String[] datos = {idGasto, idUsuario, categoria, fecha, concepto, total, urlCompletaFoto};
 
             // Guardar en la base de datos

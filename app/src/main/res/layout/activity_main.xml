@@ -48,8 +48,8 @@
      android:layout_below="@id/verGraficos"
      android:layout_marginTop="20dp">
 
-  <Button
-      android:id="@+id/dropdownMenuButton"
+  <TextView
+      android:id="@+id/txtNombredeUsuarioPrincipal"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_alignParentStart="true"

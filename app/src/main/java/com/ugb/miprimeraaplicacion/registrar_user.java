@@ -57,7 +57,7 @@ public class registrar_user extends AppCompatActivity {
         String direccion = txtdireccion.getText().toString().trim();
         String telefono = txtTelefono.getText().toString().trim();
 
-        // Validations
+        // Validaciones
         if (usuario.isEmpty()) {
             Toast.makeText(this, "Debes ingresar un usuario", Toast.LENGTH_LONG).show();
             return;
@@ -79,7 +79,7 @@ public class registrar_user extends AppCompatActivity {
             return;
         }
 
-        // Save to database
+        // guadar wn database
         String[] datos = {usuario, clave, nombre, direccion, telefono};
         String resultado = dbHelper.administrar_usuarios("agregar", datos);
 
@@ -90,6 +90,11 @@ public class registrar_user extends AppCompatActivity {
             txtclave.setText("");
             txtdireccion.setText("");
             txtTelefono.setText("");
+
+            // Redirigir a la actividad principal
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish(); // Finaliza la actividad actual
         } else {
             Toast.makeText(this, "Error al registrar: " + resultado, Toast.LENGTH_LONG).show();
         }
