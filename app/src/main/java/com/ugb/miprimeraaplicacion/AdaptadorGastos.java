@@ -70,6 +70,7 @@ public class AdaptadorGastos extends BaseAdapter {
             img.setImageBitmap(bitmap);
 
 
+
         } catch (Exception e) {
             Toast.makeText(context, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
 

@@ -98,6 +98,7 @@ public class lista_gastos extends Activity {
         }
     }
 
+
     private void eliminarGasto(){
         try{
             String IdGasto = jsonArray.getJSONObject(posicion).getString("IdGasto");
@@ -175,7 +176,6 @@ public class lista_gastos extends Activity {
                             jsonObject.getString("Concepto"),
                             jsonObject.getString("Total"),
                             jsonObject.getString("UrlFoto"));
-
 
 
                     alGastos.add(misGastos);

@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
@@ -63,8 +64,27 @@ public class MainActivity extends AppCompatActivity {
 
         mostrarDatos();
         tomarfoto();
-    }
 
+        img.setOnClickListener(view -> mostrarOpciones());
+    }
+    private void mostrarOpciones() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Seleccionar opción")
+                .setItems(new CharSequence[]{"Tomar foto", "Seleccionar de la galería", "Cancelar"}, (dialog, which) -> {
+                    switch (which) {
+                        case 0: // Tomar foto
+                            tomarfoto();
+                            break;
+                        case 1: // Seleccionar de la galería
+                            seleccionarDeGaleria();
+                            break;
+                        case 2: // Cancelar
+                            dialog.dismiss();
+                            break;
+                    }
+                });
+        builder.create().show();
+    }
 
     private void mostrarDatos() {
         try {
@@ -84,11 +104,17 @@ public class MainActivity extends AppCompatActivity {
                 tempVal.setText(datos.getString("Total"));
 
                 urlCompletaFoto = datos.getString("UrlFoto");
+
                 img.setImageURI(Uri.parse(urlCompletaFoto));
 
 
                 // Aquí puedes establecer la categoría seleccionada en el Spinner
                 spnCategoria.setSelection(obtenerPosicionCategoria(datos.getString("Categoria")));
+            }if (urlCompletaFoto != null && !urlCompletaFoto.isEmpty()){
+                img.setImageURI(Uri.parse(urlCompletaFoto));
+            }
+            else {
+            mostrarMsg("no se pudo cargar la imagen");
             }
         } catch (Exception e) {
             Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
@@ -117,20 +143,29 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void seleccionarDeGaleria() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("image/*");
+        startActivityForResult(intent, 2);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         try {
             if (requestCode == 1 && resultCode == RESULT_OK) {
-                //Bitmap imagenBitmap = BitmapFactory.decodeFile(urlCompletaFoto);
+                // Mostrar la foto tomada
                 img.setImageURI(Uri.parse(urlCompletaFoto));
-
+            } else if (requestCode == 2 && resultCode == RESULT_OK && data != null) {
+                // Mostrar la imagen seleccionada de la galería
+                Uri imagenSeleccionada = data.getData();
+                img.setImageURI(imagenSeleccionada);
+                urlCompletaFoto = imagenSeleccionada.toString(); // Guardar la URI de la imagen
             } else {
-                mostrarMsg("Error al tomar la foto");
+                mostrarMsg("Operación cancelada");
             }
-
-        }catch (Exception e){
+        } catch (Exception e) {
             mostrarMsg("Error: " + e.getMessage());
         }
     }
