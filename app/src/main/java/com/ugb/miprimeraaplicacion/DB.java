@@ -55,8 +55,11 @@ public class DB extends SQLiteOpenHelper {
             String mensaje = "ok", sql = "";
             switch (accion) {
                 case "agregar":
-                    sql = "INSERT INTO usuarios (usuario, clave, nombre, direccion, telefono, urlFoto) " +
-                            "VALUES ('" + datos[1] + "', '" + datos[2] + "', '" + datos[3] + "', '" + datos[4] + "', '" + datos[5] + "', '" + datos[6] + "')";
+                    if (datos.length < 5) {
+                        return "Datos insuficientes para agregar un usuario";
+                    }
+                    sql = "INSERT INTO usuarios (usuario, clave, nombre, direccion, telefono) " +
+                            "VALUES ('" + datos[0] + "', '" + datos[1] + "', '" + datos[2] + "', '" + datos[3] + "', '" + datos[4] + "')";
                     break;
                 case "modificar":
                     sql = "UPDATE usuarios SET " +
@@ -66,6 +69,18 @@ public class DB extends SQLiteOpenHelper {
                 case "eliminar":
                     sql = "DELETE FROM usuarios WHERE idUsuario = " + datos[0];
                     break;
+                case "logear":
+                    sql = "SELECT * FROM usuarios WHERE usuario = '" + datos[1] + "' AND clave = '" + datos[2] + "'";
+                    Cursor cursor = db.rawQuery(sql, null);
+                    if (cursor.moveToFirst()) {
+                        mensaje = "ok";
+                    } else {
+                        mensaje = "Usuario o clave incorrectos";
+                    }
+
+                    cursor.close();
+                    break;
+
             }
             db.execSQL(sql);
             db.close();

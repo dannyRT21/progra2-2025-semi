@@ -29,6 +29,15 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity {
 
     FloatingActionButton fab;
@@ -52,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        configurarValidacionFecha();
         db = new DB(this);
         btn = findViewById(R.id.btnguardarGasto);
         btn.setOnClickListener(View -> guardarAmigo());
@@ -204,7 +213,71 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
+    private void configurarValidacionFecha() {
+        EditText txtFechaGasto = findViewById(R.id.txtfechaGasto);
 
+        txtFechaGasto.addTextChangedListener(new TextWatcher() {
+            private String current = "";
+            private final String ddmmyyyy = "DDMMYYYY";
+            private final SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!s.toString().equals(current)) {
+                    String clean = s.toString().replaceAll("[^\\d]", "");
+                    String cleanC = current.replaceAll("[^\\d]", "");
+
+                    int cl = clean.length();
+                    int sel = cl;
+                    for (int i = 2; i <= cl && i < 6; i += 2) {
+                        sel++;
+                    }
+                    if (clean.equals(cleanC)) sel--;
+
+                    if (clean.length() < 8) {
+                        clean = clean + ddmmyyyy.substring(clean.length());
+                    } else {
+                        int day = Integer.parseInt(clean.substring(0, 2));
+                        int mon = Integer.parseInt(clean.substring(2, 4));
+                        int year = Integer.parseInt(clean.substring(4, 8));
+
+                        if (mon > 12) mon = 12;
+                        if (day > 31) day = 31;
+
+                        clean = String.format(Locale.getDefault(), "%02d%02d%04d", day, mon, year);
+                    }
+
+                    clean = String.format(Locale.getDefault(), "%s/%s/%s",
+                            clean.substring(0, 2),
+                            clean.substring(2, 4),
+                            clean.substring(4, 8));
+
+                    sel = sel < 0 ? 0 : sel;
+                    current = clean;
+                    txtFechaGasto.setText(current);
+                    txtFechaGasto.setSelection(sel < current.length() ? sel : current.length());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Validar si la fecha es válida
+                String fecha = txtFechaGasto.getText().toString();
+                if (fecha.length() == 10) {
+                    try {
+                        sdf.setLenient(false);
+                        sdf.parse(fecha); // Intenta parsear la fecha
+                    } catch (ParseException e) {
+                        txtFechaGasto.setError("Fecha inválida. Use el formato dd/MM/yyyy");
+                    }
+                }
+            }
+        });
+    }
 
     private void guardarAmigo() {
         try {

@@ -55,7 +55,7 @@
            />
 
         <EditText
-            android:id="@+id/txtclave_entrar"
+            android:id="@+id/txtclave"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Contraseña (mínimo 6 caracteres)"
@@ -78,7 +78,7 @@
             />
 
         <EditText
-            android:id="@+id/txttelefono"
+            android:id="@+id/txtTelefono"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Teléfono (sin guión)"

@@ -65,6 +65,7 @@ public class AdaptadorGastos extends BaseAdapter {
         tempVal = itemView.findViewById(R.id.lblTotalAdaptador);
         tempVal.setText(misGastos.getTotal());
 
+        
             ImageView img = itemView.findViewById(R.id.imgFotoAdaptador);
             Bitmap bitmap = BitmapFactory.decodeFile(misGastos.getUrlFoto());
             img.setImageBitmap(bitmap);
