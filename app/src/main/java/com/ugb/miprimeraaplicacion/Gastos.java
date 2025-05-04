@@ -8,6 +8,7 @@ public class Gastos {
     String Fecha;
     String Concepto;
     String Total;
+    String UrlFoto;
 
     public String getIdGasto() {
         return IdGasto;
@@ -57,13 +58,23 @@ public class Gastos {
         Total = total;
     }
 
-    public Gastos(String idGasto, String idUsuario, String categoria, String fecha, String concepto, String total) {
+    public String getUrlFoto() {
+        return UrlFoto;
+    }
+
+    public void setUrlFoto(String urlFoto) {
+        UrlFoto = urlFoto;
+    }
+
+    public Gastos(String idGasto, String idUsuario, String categoria, String fecha, String concepto, String total, String urlFoto) {
         IdGasto = idGasto;
         IdUsuario = idUsuario;
         Categoria = categoria;
         Fecha = fecha;
         Concepto = concepto;
         Total = total;
+        UrlFoto = urlFoto;
     }
 }
+
 

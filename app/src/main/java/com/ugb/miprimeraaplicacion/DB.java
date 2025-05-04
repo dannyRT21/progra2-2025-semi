@@ -28,7 +28,9 @@ public class DB extends SQLiteOpenHelper {
                     "Fecha TEXT NOT NULL, " +
                     "Concepto TEXT NOT NULL, " +
                     "Total REAL NOT NULL, " +
+                    "UrlFoto TEXT, " +
                     "FOREIGN KEY (IdUsuario) REFERENCES usuarios (idUsuario))";
+
 
     public DB(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -42,7 +44,9 @@ public class DB extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Aquí puedes manejar actualizaciones de la base de datos si cambian las versiones
+        if (oldVersion < newVersion) {
+            db.execSQL("ALTER TABLE Gastos ADD COLUMN UrlFoto TEXT");
+        }
     }
 
     public String administrar_usuarios(String accion, String[] datos) {
@@ -51,13 +55,13 @@ public class DB extends SQLiteOpenHelper {
             String mensaje = "ok", sql = "";
             switch (accion) {
                 case "agregar":
-                    sql = "INSERT INTO usuarios (usuario, clave, nombre, direccion, telefono) " +
-                            "VALUES ('" + datos[1] + "', '" + datos[2] + "', '" + datos[3] + "', '" + datos[4] + "', '" + datos[5] + "')";
+                    sql = "INSERT INTO usuarios (usuario, clave, nombre, direccion, telefono, urlFoto) " +
+                            "VALUES ('" + datos[1] + "', '" + datos[2] + "', '" + datos[3] + "', '" + datos[4] + "', '" + datos[5] + "', '" + datos[6] + "')";
                     break;
                 case "modificar":
                     sql = "UPDATE usuarios SET " +
                             "usuario = '" + datos[1] + "', clave = '" + datos[2] + "', nombre = '" + datos[3] + "', " +
-                            "direccion = '" + datos[4] + "', telefono = '" + datos[5] + "' WHERE idUsuario = " + datos[0];
+                            "direccion = '" + datos[4] + "', telefono = '" + datos[5] + "', urlFoto = '" + datos[6] + "' WHERE idUsuario = " + datos[0];
                     break;
                 case "eliminar":
                     sql = "DELETE FROM usuarios WHERE idUsuario = " + datos[0];
@@ -71,24 +75,19 @@ public class DB extends SQLiteOpenHelper {
         }
     }
 
-    public Cursor lista_usuarios() {
-        SQLiteDatabase db = getReadableDatabase();
-        return db.rawQuery("SELECT * FROM usuarios", null);
-    }
-
     public String administrar_gastos(String accion, String[] datos) {
         try {
             SQLiteDatabase db = getWritableDatabase();
             String mensaje = "ok", sql = "";
             switch (accion) {
                 case "nuevo":
-                    sql = "INSERT INTO Gastos (IdUsuario, Categoria, Fecha, Concepto, Total) " +
-                            "VALUES (" + datos[1] + ", '" + datos[2] + "', '" + datos[3] + "', '" + datos[4] + "', " + datos[5] + ")";
+                    sql = "INSERT INTO Gastos (IdUsuario, Categoria, Fecha, Concepto, Total, UrlFoto) " +
+                            "VALUES (" + datos[1] + ", '" + datos[2] + "', '" + datos[3] + "', '" + datos[4] + "', " + datos[5] + ", '" + datos[6] + "')";
                     break;
                 case "modificar":
                     sql = "UPDATE Gastos SET " +
                             "IdUsuario = " + datos[1] + ", Categoria = '" + datos[2] + "', Fecha = '" + datos[3] + "', " +
-                            "Concepto = '" + datos[4] + "', Total = " + datos[5] + " WHERE IdGasto = " + datos[0];
+                            "Concepto = '" + datos[4] + "', Total = " + datos[5] + ", UrlFoto = '" + datos[6] + "' WHERE IdGasto = " + datos[0];
                     break;
                 case "eliminar":
                     sql = "DELETE FROM Gastos WHERE IdGasto = " + datos[0];

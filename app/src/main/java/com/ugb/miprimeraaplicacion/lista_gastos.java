@@ -137,7 +137,7 @@ public class lista_gastos extends Activity {
             if (cGastos.moveToFirst()) {
                 jsonArray = new JSONArray();
                 do {
-                    misGastos = new Gastos(cGastos.getString(0), cGastos.getString(1), cGastos.getString(2), cGastos.getString(3), cGastos.getString(4), cGastos.getString(5));
+                    misGastos = new Gastos(cGastos.getString(0), cGastos.getString(1), cGastos.getString(2), cGastos.getString(3), cGastos.getString(4), cGastos.getString(5), cGastos.getString(6));
                     alGastos.add(misGastos);
                     jsonObject = new JSONObject();
                     jsonObject.put("IdGasto", misGastos.getIdGasto());
@@ -146,6 +146,7 @@ public class lista_gastos extends Activity {
                     jsonObject.put("Fecha", misGastos.getFecha());
                     jsonObject.put("Concepto", misGastos.getConcepto());
                     jsonObject.put("Total", misGastos.getTotal());
+                    jsonObject.put("UrlFoto", misGastos.getUrlFoto());
                     jsonArray.put(jsonObject);
                 } while (cGastos.moveToNext());
                 mostrarDatosGastos();
@@ -172,7 +173,10 @@ public class lista_gastos extends Activity {
                             jsonObject.getString("Categoria"),
                             jsonObject.getString("Fecha"),
                             jsonObject.getString("Concepto"),
-                            jsonObject.getString("Total"));
+                            jsonObject.getString("Total"),
+                            jsonObject.getString("UrlFoto"));
+
+
 
                     alGastos.add(misGastos);
                     alGastosCopia.add(misGastos);

@@ -116,14 +116,15 @@
 
   <ImageButton
       android:id="@+id/imgFotoFactura"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
+      android:layout_width="100dp"
+      android:layout_height="100dp"
       android:layout_below="@id/txtTotal"
       android:layout_centerHorizontal="true"
       android:layout_marginTop="20dp"
       android:backgroundTint="#01c5bb"
       android:padding="12dp"
-      android:src="@mipmap/ic_launcher_round" />
+      android:src="@mipmap/ic_launcher_round"
+    />
 
   <Button
       android:id="@+id/btnguardarGasto"

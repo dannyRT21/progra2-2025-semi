@@ -1,19 +1,32 @@
 package com.ugb.miprimeraaplicacion;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONObject;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,6 +36,14 @@ public class MainActivity extends AppCompatActivity {
     TextView tempVal;
     DB db;
     String accion = "nuevo", idGasto = "";
+
+    ImageView img;
+
+    String urlCompletaFoto = "";
+
+    Intent tomarfotoIntent;
+
+
 
 
     @Override
@@ -34,12 +55,16 @@ public class MainActivity extends AppCompatActivity {
         db = new DB(this);
         btn = findViewById(R.id.btnguardarGasto);
         btn.setOnClickListener(View -> guardarAmigo());
-
+        img = findViewById(R.id.imgFotoFactura);
         fab = findViewById(R.id.fabVerGastos);
         fab.setOnClickListener(view -> AbrirVentana());
         spnCategoria = findViewById(R.id.spncategoria);
+
+
         mostrarDatos();
+        tomarfoto();
     }
+
 
     private void mostrarDatos() {
         try {
@@ -58,12 +83,73 @@ public class MainActivity extends AppCompatActivity {
                 tempVal = findViewById(R.id.txtTotal);
                 tempVal.setText(datos.getString("Total"));
 
+                urlCompletaFoto = datos.getString("UrlFoto");
+                img.setImageURI(Uri.parse(urlCompletaFoto));
+
+
                 // Aquí puedes establecer la categoría seleccionada en el Spinner
                 spnCategoria.setSelection(obtenerPosicionCategoria(datos.getString("Categoria")));
             }
         } catch (Exception e) {
             Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void tomarfoto() {
+        img.setOnClickListener(view ->  {
+            tomarfotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            File fotoFactura = null;
+            try{
+            fotoFactura = crearImagenFactura();
+            if (fotoFactura!=null){
+                Uri uriFotoFactura = FileProvider.getUriForFile(MainActivity.this,
+                        "com.ugb.miprimeraaplicacion.fileprovider",fotoFactura);
+                tomarfotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, uriFotoFactura);
+                startActivityForResult(tomarfotoIntent, 1);
+
+
+            }else {
+                mostrarMsg("Error al crear la imagen");
+            }
+            }catch (Exception e){
+               mostrarMsg("Error: " + e.getMessage());
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        try {
+            if (requestCode == 1 && resultCode == RESULT_OK) {
+                //Bitmap imagenBitmap = BitmapFactory.decodeFile(urlCompletaFoto);
+                img.setImageURI(Uri.parse(urlCompletaFoto));
+
+            } else {
+                mostrarMsg("Error al tomar la foto");
+            }
+
+        }catch (Exception e){
+            mostrarMsg("Error: " + e.getMessage());
+        }
+    }
+
+    private File crearImagenFactura() throws Exception {
+        String fechaHoraMs = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()),
+                fileName = "imagen_"+ fechaHoraMs+"_";
+        File dirAlmacenamiento = getExternalFilesDir(Environment.DIRECTORY_DCIM);
+        if( dirAlmacenamiento.exists()==false ){
+            dirAlmacenamiento.mkdir();
+        }
+        File image = File.createTempFile(fileName, ".jpg", dirAlmacenamiento);
+        urlCompletaFoto = image.getAbsolutePath();
+        return image;
+    }
+
+
+    private void mostrarMsg(String msg){
+        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
     }
 
     private int obtenerPosicionCategoria(String categoria) {
@@ -84,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     private void guardarAmigo() {
         try {
             // Obtener los valores de los campos
@@ -96,6 +183,7 @@ public class MainActivity extends AppCompatActivity {
             tempVal = findViewById(R.id.txtTotal);
             String total = tempVal.getText().toString();
 
+
             // Obtener la categoría seleccionada del Spinner
             String categoria = spnCategoria.getSelectedItem().toString();
 
@@ -107,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
 
             // Preparar los datos para la base de datos
             String idUsuario = "1"; // ID del usuario (puedes obtenerlo dinámicamente si es necesario)
-            String[] datos = {idGasto, idUsuario, categoria, fecha, concepto, total};
+            String[] datos = {idGasto, idUsuario, categoria, fecha, concepto, total, urlCompletaFoto};
 
             // Guardar en la base de datos
             String resultado = db.administrar_gastos(accion, datos);

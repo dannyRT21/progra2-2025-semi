@@ -2,10 +2,13 @@ package com.ugb.miprimeraaplicacion;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,6 +64,10 @@ public class AdaptadorGastos extends BaseAdapter {
 
         tempVal = itemView.findViewById(R.id.lblTotalAdaptador);
         tempVal.setText(misGastos.getTotal());
+
+            ImageView img = itemView.findViewById(R.id.imgFotoAdaptador);
+            Bitmap bitmap = BitmapFactory.decodeFile(misGastos.getUrlFoto());
+            img.setImageBitmap(bitmap);
 
 
         } catch (Exception e) {
