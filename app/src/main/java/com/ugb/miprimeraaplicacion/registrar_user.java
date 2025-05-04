@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class registrar_user extends AppCompatActivity {
     private EditText txtUsuario, txtnombre, txtclave, txtdireccion, txtTelefono;
-    private Button btnRegistrar;
+    private Button btnRegistrar, btnIngresar;
     private DB dbHelper;
 
     @Override
@@ -27,11 +27,20 @@ public class registrar_user extends AppCompatActivity {
         txtdireccion = findViewById(R.id.txtdireccion); // Fixed duplicate assignment
         txtTelefono = findViewById(R.id.txtTelefono);
         btnRegistrar = findViewById(R.id.btnregistrar);
+
+        btnIngresar =  findViewById(R.id.btnIngresar);
+
         dbHelper = new DB(this);
 
         Bundle bundle = getIntent().getExtras();
         String usuario = bundle != null ? bundle.getString("usuario") : null;
         mostrarDatos(usuario);
+
+        btnIngresar.setOnClickListener(view -> {
+            // Navegar a la pantalla de inicio de sesión
+            Intent intent = new Intent(this, login_vista.class);
+            startActivity(intent);
+        });
 
         btnRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,5 +120,12 @@ public class registrar_user extends AppCompatActivity {
             Toast.makeText(this, "Error al buscar datos", Toast.LENGTH_LONG).show();
         }
     }
+    private void AbrirLoginClase() {
+        Intent intent = new Intent(this, login_vista.class);
+        startActivity(intent);
+        finish();
+
+    }
+
 
     }

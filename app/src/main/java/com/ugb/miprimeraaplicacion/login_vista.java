@@ -1,5 +1,6 @@
 package com.ugb.miprimeraaplicacion;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,9 +13,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class login_vista extends AppCompatActivity {
     private EditText etUsuario, etPassword;
-    private Button btnIngresar;
+    private Button btnIngresar,btnRegistrarNuevo;
     private DB dbHelper;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,9 +25,16 @@ public class login_vista extends AppCompatActivity {
         etUsuario = findViewById(R.id.lbltUsuario);
         etPassword = findViewById(R.id.lblContraseña);
         btnIngresar = findViewById(R.id.btnLogin);
+        btnRegistrarNuevo = findViewById(R.id.btnRegistrarNuevo);
         dbHelper = new DB(this);
 
         btnIngresar.setOnClickListener(view -> ingresar());
+
+        btnRegistrarNuevo.setOnClickListener(view -> {
+            Intent intent = new Intent(this, registrar_user.class);
+            startActivity(intent);
+        });
+
     }
 
     private void ingresar() {

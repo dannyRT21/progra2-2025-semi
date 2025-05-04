@@ -1,59 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/holo_blue_light"
+    android:padding="24dp"
     tools:context=".login_vista">
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F5F5F5"
-        android:padding="24dp">
+        android:fillViewport="true">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
             <ImageView
+                android:id="@+id/imgLogo"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
+                android:layout_centerHorizontal="true"
                 android:layout_marginTop="32dp"
                 android:src="@drawable/ic_launcher_foreground"
                 android:contentDescription="logo_de_la_aplicacion" />
 
             <TextView
+                android:id="@+id/txtTitulo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/imgLogo"
+                android:layout_centerHorizontal="true"
                 android:layout_marginTop="24dp"
-                android:text="iniciar_sesion"
+                android:text="Iniciar sesión"
                 android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="#FFFFFF" />
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilUsuario"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/txtTitulo"
                 android:layout_marginTop="32dp"
-                android:hint="usuario">
+                android:hint="Usuario">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/lbltUsuario"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress" />
-
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilContrasena"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/tilUsuario"
                 android:layout_marginTop="16dp"
-                android:hint="contraseña"
+                android:hint="Contraseña"
                 app:endIconMode="password_toggle">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -61,47 +68,42 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword" />
-
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/tilContrasena"
                 android:layout_marginTop="24dp"
-                android:text="entrar" />
+                android:text="Entrar"
+                android:backgroundTint="@android:color/holo_blue_dark"
+                android:textColor="#FFFFFF" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRegistrarNuevo"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/btnLogin"
+                android:layout_centerHorizontal="true"
                 android:layout_marginTop="16dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="no tienes cuenta?: " />
-
-                <TextView
-                    android:id="@+id/lblRegistrarse"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="registrarse"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
+                android:text="¿Tienes una cuenta? Registrarse aqui"
+                android:textColor="@android:color/holo_blue_dark"
+                android:backgroundTint="@android:color/white"
+                 />
 
             <TextView
                 android:id="@+id/lblOlvidoContrasena"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/btnRegistrarNuevo"
+                android:layout_centerHorizontal="true"
                 android:layout_marginTop="16dp"
-                android:text="olvidaste tu contrasena"
-                android:textStyle="bold" />
+                android:text="¿Olvidaste tu contraseña?"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF" />
 
-        </LinearLayout>
+        </RelativeLayout>
     </ScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

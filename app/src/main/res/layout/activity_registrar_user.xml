@@ -99,6 +99,18 @@
             android:padding="12dp"
             android:layout_margin="8dp" />
 
+
+
+        <Button
+            android:id="@+id/btnIngresar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="¿Ya tienes una cuenta?, entra aqui"
+            android:backgroundTint="#007bff"
+            android:textColor="@android:color/white"
+            android:padding="12dp"
+            android:layout_margin="8dp" />
+
         <Button
             android:id="@+id/btncancelar"
             android:layout_width="match_parent"
