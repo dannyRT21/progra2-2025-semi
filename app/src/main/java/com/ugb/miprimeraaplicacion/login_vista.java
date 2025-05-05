@@ -52,15 +52,18 @@ public class login_vista extends AppCompatActivity {
                      new String[]{usuario, password})) {
 
             if (cursor.moveToFirst()) {
-                int idUsuario = cursor.getInt(cursor.getColumnIndexOrThrow("idUsuario")); // Obtén el idUsuario
-                Toast.makeText(this, "¡Bienvenido, " + usuario + "!", Toast.LENGTH_LONG).show();
+                int idUsuario = cursor.getInt(cursor.getColumnIndexOrThrow("idUsuario"));
+                String nombre = cursor.getString(cursor.getColumnIndexOrThrow("nombre")); // Obtén el nombre del usuario
+
+                Toast.makeText(this, "¡Bienvenido, " + nombre + "!", Toast.LENGTH_LONG).show();
+
                 Intent intent = new Intent(this, MainActivity.class);
-                intent.putExtra("idUsuario", idUsuario); // Pasa el idUsuario
+                intent.putExtra("idUsuario", idUsuario);
+                intent.putExtra("nombreUsuario", nombre); // Pasa el nombre
+                intent.putExtra("claveUsuario", password); // Pasa la contraseña
                 startActivity(intent);
                 finish();
-            }
-            else {
-                // Login failed
+            } else {
                 etPassword.setText("");
                 Toast.makeText(this, "Usuario o contraseña incorrectos. Intente de nuevo.", Toast.LENGTH_LONG).show();
             }

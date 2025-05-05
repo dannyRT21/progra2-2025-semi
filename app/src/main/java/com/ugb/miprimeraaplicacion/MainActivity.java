@@ -57,13 +57,13 @@ public class MainActivity extends AppCompatActivity {
 
     Button btnCerrarSesion;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         btnCerrarSesion = findViewById(R.id.btnCerrarSesion);
-
         btnCerrarSesion.setOnClickListener(view -> cerrarSesion());
 
         idUsuario = String.valueOf(getIntent().getIntExtra("idUsuario", -1));
@@ -74,6 +74,17 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+        // Mostrar solo el nombre del usuario
+        TextView txtNombreUsuario = findViewById(R.id.txtNombredeUsuarioPrincipal);
+        String nombreUsuario = getIntent().getStringExtra("nombreUsuario");
+
+        if (nombreUsuario != null) {
+            txtNombreUsuario.setText(" " + nombreUsuario);
+        } else {
+            txtNombreUsuario.setText("Usuario no identificado");
+        }
+
+        // Mantener el resto de la funcionalidad existente
         configurarValidacionFecha();
         db = new DB(this);
         btn = findViewById(R.id.btnguardarGasto);
@@ -88,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
 
         img.setOnClickListener(view -> mostrarOpciones());
     }
-
     private void cerrarSesion() {
         Toast.makeText(this, "Sesión cerrada correctamente.", Toast.LENGTH_SHORT).show();
 
