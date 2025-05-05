@@ -2,6 +2,7 @@ package com.ugb.miprimeraaplicacion;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -188,16 +189,35 @@ public class MainActivity extends AppCompatActivity {
                 // Mostrar la foto tomada
                 img.setImageURI(Uri.parse(urlCompletaFoto));
             } else if (requestCode == 2 && resultCode == RESULT_OK && data != null) {
-                // Mostrar la imagen seleccionada de la galería
+                // Obtener la URI de la imagen seleccionada
                 Uri imagenSeleccionada = data.getData();
-                img.setImageURI(imagenSeleccionada);
-                urlCompletaFoto = imagenSeleccionada.toString(); // Guardar la URI de la imagen
+
+                // Convertir la URI a una ruta absoluta
+                String rutaAbsoluta = obtenerRutaAbsoluta(imagenSeleccionada);
+                if (rutaAbsoluta != null) {
+                    urlCompletaFoto = rutaAbsoluta; // Guardar la ruta absoluta
+                    img.setImageURI(Uri.parse(urlCompletaFoto)); // Mostrar la imagen
+                } else {
+                    mostrarMsg("No se pudo obtener la ruta de la imagen seleccionada.");
+                }
             } else {
                 mostrarMsg("Operación cancelada");
             }
         } catch (Exception e) {
             mostrarMsg("Error: " + e.getMessage());
         }
+    }
+    private String obtenerRutaAbsoluta(Uri uri) {
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+        if (cursor != null) {
+            int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            String ruta = cursor.getString(columnIndex);
+            cursor.close();
+            return ruta;
+        }
+        return null;
     }
 
     private File crearImagenFactura() throws Exception {
