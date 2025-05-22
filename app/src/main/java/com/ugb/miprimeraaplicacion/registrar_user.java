@@ -54,6 +54,8 @@ public class registrar_user extends AppCompatActivity {
         });
     }
 
+
+
     public void guardar() {
         String usuario = txtUsuario.getText().toString().trim();
         String clave = txtclave.getText().toString().trim();
@@ -95,10 +97,16 @@ public class registrar_user extends AppCompatActivity {
             txtdireccion.setText("");
             txtTelefono.setText("");
 
-            // Redirigir a la actividad principal
+// Guarda el usuario en SharedPreferences
+            getSharedPreferences("sesion", MODE_PRIVATE)
+                    .edit()
+                    .putString("usuario", usuario)
+                    .apply();
+// Pasa el usuario a la MainActivity
             Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("usuario", usuario);
             startActivity(intent);
-            finish(); // Finaliza la actividad actual
+            finish();
         } else {
             Toast.makeText(this, "Error al registrar: " + resultado, Toast.LENGTH_LONG).show();
         }

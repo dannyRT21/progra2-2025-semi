@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -68,6 +69,40 @@ public class MainActivity extends AppCompatActivity {
         tomarfoto();
 
         img.setOnClickListener(view -> mostrarOpciones());
+        // Obtén el idUsuario del Intent
+        int idUsuario = getIntent().getIntExtra("idUsuario", -1);
+
+        TextView txtNombreUsuario = findViewById(R.id.txtNombredeUsuarioPrincipal);
+
+        if (idUsuario == -1) {
+            txtNombreUsuario.setText("Usuario no identificado");
+        } else {
+            // Consulta el nombre en la base de datos
+            DB dbHelper = new DB(this);
+            SQLiteDatabase db = dbHelper.getReadableDatabase();
+            Cursor cursor = db.rawQuery("SELECT nombre FROM usuarios WHERE idUsuario = ?", new String[]{String.valueOf(idUsuario)});
+            if (cursor.moveToFirst()) {
+                String nombreUsuario = cursor.getString(0);
+                txtNombreUsuario.setText(nombreUsuario);
+            } else {
+                txtNombreUsuario.setText("Usuario no identificado");
+            }
+            cursor.close();
+            db.close();
+        }
+
+// Recibe el usuario o idUsuario desde el Intent
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            if (extras.containsKey("usuario")) {
+                String usuario = extras.getString("usuario");
+                // Aquí puedes usar el nombre de usuario
+            }
+            if (extras.containsKey("idUsuario")) {
+                int idUsuario1 = extras.getInt("idUsuario");
+
+            }
+        }
     }
 
     private void mostrarOpciones() {
@@ -145,6 +180,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_CAMERA_PERMISSION = 100;
 
+    @SuppressLint("NewApi")
     private void tomarfoto() {
         img.setOnClickListener(view -> {
             if (checkSelfPermission(android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
