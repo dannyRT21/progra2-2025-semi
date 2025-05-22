@@ -6,31 +6,17 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DB extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "pisto"; // Nombre de la base de datos
+
+    private static final String DATABASE_NAME = "GastosDB";
     private static final int DATABASE_VERSION = 1;
 
-    // Consulta para crear la tabla 'usuarios'
-    private static final String SQL_CREATE_USUARIOS =
-            "CREATE TABLE usuarios (" +
-                    "idUsuario INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "usuario TEXT NOT NULL, " +
-                    "clave TEXT NOT NULL, " +
-                    "nombre TEXT NOT NULL, " +
-                    "direccion TEXT NOT NULL, " +
-                    "telefono TEXT NOT NULL)";
+    private static final String SQL_CREATE_USUARIOS = "CREATE TABLE usuarios (" +
+            "idUsuario INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            "usuario TEXT, clave TEXT, nombre TEXT, direccion TEXT, telefono TEXT)";
 
-    // Consulta para crear la tabla 'Gastos'
-    private static final String SQL_CREATE_GASTOS =
-            "CREATE TABLE Gastos (" +
-                    "IdGasto INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "IdUsuario INTEGER NOT NULL, " +
-                    "Categoria TEXT NOT NULL, " +
-                    "Fecha TEXT NOT NULL, " +
-                    "Concepto TEXT NOT NULL, " +
-                    "Total REAL NOT NULL, " +
-                    "UrlFoto TEXT, " +
-                    "FOREIGN KEY (IdUsuario) REFERENCES usuarios (idUsuario))";
-
+    private static final String SQL_CREATE_GASTOS = "CREATE TABLE Gastos (" +
+            "IdGasto INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            "IdUsuario INTEGER, Categoria TEXT, Fecha TEXT, Concepto TEXT, Total REAL, UrlFoto TEXT)";
 
     public DB(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -49,19 +35,19 @@ public class DB extends SQLiteOpenHelper {
         }
     }
 
-    public String administrar_usuarios(String accion, String[] datos) {
+    public String administrarUsuarios(String accion, String[] datos) {
         try {
             SQLiteDatabase db = getWritableDatabase();
             String mensaje = "ok", sql = "";
             switch (accion) {
                 case "agregar":
-                    sql = "INSERT INTO usuarios (usuario, clave, nombre, direccion, telefono, urlFoto) " +
-                            "VALUES ('" + datos[1] + "', '" + datos[2] + "', '" + datos[3] + "', '" + datos[4] + "', '" + datos[5] + "', '" + datos[6] + "')";
+                    sql = "INSERT INTO usuarios (usuario, clave, nombre, direccion, telefono ) " +
+                            "VALUES ('" + datos[1] + "', '" + datos[2] + "', '" + datos[3] + "', '" + datos[4] + "', '" + datos[5] + "')";
                     break;
                 case "modificar":
                     sql = "UPDATE usuarios SET " +
-                            "usuario = '" + datos[1] + "', clave = '" + datos[2] + "', nombre = '" + datos[3] + "', " +
-                            "direccion = '" + datos[4] + "', telefono = '" + datos[5] + "', urlFoto = '" + datos[6] + "' WHERE idUsuario = " + datos[0];
+                            "usuario = '" + datos[1] + "', clave = '" + datos[2] + "', nombre = '" + datos[3] + "'" +
+                            "direccion = '" + datos[4] + "', telefono = '" + datos[5] + "', UrlFoto = '" + datos[6] + "' WHERE idUsuario = " + datos[0];
                     break;
                 case "eliminar":
                     sql = "DELETE FROM usuarios WHERE idUsuario = " + datos[0];

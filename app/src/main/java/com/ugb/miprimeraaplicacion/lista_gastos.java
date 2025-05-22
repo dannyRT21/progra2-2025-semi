@@ -37,6 +37,7 @@ public class lista_gastos extends Activity {
     FloatingActionButton fab;
     DB db;
     Cursor cGastos;
+    
 
     ListView ltsGastos;
     final ArrayList<Gastos> alGastos = new ArrayList<Gastos>();

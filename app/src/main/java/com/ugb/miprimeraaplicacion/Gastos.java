@@ -2,79 +2,77 @@ package com.ugb.miprimeraaplicacion;
 
 public class Gastos {
 
-    String IdGasto;
-    String IdUsuario;
-    String Categoria;
-    String Fecha;
-    String Concepto;
-    String Total;
-    String UrlFoto;
+    private String idGasto;
+    private String idUsuario;
+    private String categoria;
+    private String fecha;
+    private String concepto;
+    private String total;
+    private String urlFoto;
+
+    public Gastos(String idGasto, String idUsuario, String categoria, String fecha, String concepto, String total, String urlFoto) {
+        this.idGasto = idGasto;
+        this.idUsuario = idUsuario;
+        this.categoria = categoria;
+        this.fecha = fecha;
+        this.concepto = concepto;
+        this.total = total;
+        this.urlFoto = urlFoto;
+    }
 
     public String getIdGasto() {
-        return IdGasto;
+        return idGasto;
     }
 
     public void setIdGasto(String idGasto) {
-        IdGasto = idGasto;
+        this.idGasto = idGasto;
     }
 
     public String getIdUsuario() {
-        return IdUsuario;
+        return idUsuario;
     }
 
     public void setIdUsuario(String idUsuario) {
-        IdUsuario = idUsuario;
+        this.idUsuario = idUsuario;
     }
 
     public String getCategoria() {
-        return Categoria;
+        return categoria;
     }
 
     public void setCategoria(String categoria) {
-        Categoria = categoria;
+        this.categoria = categoria;
     }
 
     public String getFecha() {
-        return Fecha;
+        return fecha;
     }
 
     public void setFecha(String fecha) {
-        Fecha = fecha;
+        this.fecha = fecha;
     }
 
     public String getConcepto() {
-        return Concepto;
+        return concepto;
     }
 
     public void setConcepto(String concepto) {
-        Concepto = concepto;
+        this.concepto = concepto;
     }
 
     public String getTotal() {
-        return Total;
+        return total;
     }
 
     public void setTotal(String total) {
-        Total = total;
+        this.total = total;
     }
 
     public String getUrlFoto() {
-        return UrlFoto;
+        return urlFoto;
     }
 
     public void setUrlFoto(String urlFoto) {
-        UrlFoto = urlFoto;
-    }
-
-    public Gastos(String idGasto, String idUsuario, String categoria, String fecha, String concepto, String total, String urlFoto) {
-        IdGasto = idGasto;
-        IdUsuario = idUsuario;
-        Categoria = categoria;
-        Fecha = fecha;
-        Concepto = concepto;
-        Total = total;
-        UrlFoto = urlFoto;
+        this.urlFoto = urlFoto;
     }
 }
-
-

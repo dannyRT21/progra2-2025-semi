@@ -2,6 +2,8 @@ package com.ugb.miprimeraaplicacion;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -45,8 +47,6 @@ public class MainActivity extends AppCompatActivity {
     Intent tomarfotoIntent;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
         btn = findViewById(R.id.btnguardarGasto);
         btn.setOnClickListener(View -> guardarAmigo());
         img = findViewById(R.id.imgFotoFactura);
+        img.setImageResource(R.mipmap.ic_launcher_round); // Imagen por defecto
+
         fab = findViewById(R.id.fabVerGastos);
         fab.setOnClickListener(view -> AbrirVentana());
         spnCategoria = findViewById(R.id.spncategoria);
@@ -67,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
         img.setOnClickListener(view -> mostrarOpciones());
     }
+
     private void mostrarOpciones() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Seleccionar opción")
@@ -89,6 +92,21 @@ public class MainActivity extends AppCompatActivity {
     private void mostrarDatos() {
         try {
             Bundle parametros = getIntent().getExtras();
+            if (parametros == null || !parametros.containsKey("accion")) {
+                // Si vienes del login, inicializa para nuevo gasto
+                accion = "nuevo";
+                idGasto = "";
+                tempVal = findViewById(R.id.txtfechaGasto);
+                tempVal.setText("");
+                tempVal = findViewById(R.id.txtconceptoGasto);
+                tempVal.setText("");
+                tempVal = findViewById(R.id.txtTotal);
+                tempVal.setText("");
+                urlCompletaFoto = "";
+                img.setImageResource(R.mipmap.ic_launcher_round);
+                spnCategoria.setSelection(0);
+                return;
+            }
             accion = parametros.getString("accion");
             if (accion.equals("modificar")) {
                 JSONObject datos = new JSONObject(parametros.getString("gastos"));
@@ -105,42 +123,66 @@ public class MainActivity extends AppCompatActivity {
 
                 urlCompletaFoto = datos.getString("UrlFoto");
 
-                img.setImageURI(Uri.parse(urlCompletaFoto));
+                if (urlCompletaFoto != null && !urlCompletaFoto.isEmpty()) {
+                    File file = new File(urlCompletaFoto);
+                    if (file.exists()) {
+                        img.setImageURI(Uri.fromFile(file));
+                    } else {
+                        mostrarMsg("No se pudo cargar la imagen, archivo no encontrado.");
+                        img.setImageResource(R.mipmap.ic_launcher_round);
+                    }
+                } else {
+                    mostrarMsg("No se pudo cargar la imagen, ruta no válida.");
+                    img.setImageResource(R.mipmap.ic_launcher_round);
+                }
 
-
-                // Aquí puedes establecer la categoría seleccionada en el Spinner
                 spnCategoria.setSelection(obtenerPosicionCategoria(datos.getString("Categoria")));
-            }if (urlCompletaFoto != null && !urlCompletaFoto.isEmpty()){
-                img.setImageURI(Uri.parse(urlCompletaFoto));
-            }
-            else {
-            mostrarMsg("no se pudo cargar la imagen");
             }
         } catch (Exception e) {
-            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            mostrarMsg("Error en mostrarDatos: " + e.getMessage());
         }
     }
 
+    private static final int REQUEST_CAMERA_PERMISSION = 100;
+
     private void tomarfoto() {
-        img.setOnClickListener(view ->  {
-            tomarfotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            File fotoFactura = null;
-            try{
-            fotoFactura = crearImagenFactura();
-            if (fotoFactura!=null){
-                Uri uriFotoFactura = FileProvider.getUriForFile(MainActivity.this,
-                        "com.ugb.miprimeraaplicacion.fileprovider",fotoFactura);
-                tomarfotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, uriFotoFactura);
-                startActivityForResult(tomarfotoIntent, 1);
-
-
-            }else {
-                mostrarMsg("Error al crear la imagen");
-            }
-            }catch (Exception e){
-               mostrarMsg("Error: " + e.getMessage());
+        img.setOnClickListener(view -> {
+            if (checkSelfPermission(android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{android.Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+            } else {
+                abrirCamara();
             }
         });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CAMERA_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                abrirCamara();
+            } else {
+                mostrarMsg("Permiso de cámara denegado.");
+            }
+        }
+    }
+
+    private void abrirCamara() {
+        tomarfotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        File fotoFactura = null;
+        try {
+            fotoFactura = crearImagenFactura();
+            if (fotoFactura != null) {
+                Uri uriFotoFactura = FileProvider.getUriForFile(MainActivity.this,
+                        "com.ugb.miprimeraaplicacion.fileprovider", fotoFactura);
+                tomarfotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, uriFotoFactura);
+                startActivityForResult(tomarfotoIntent, 1);
+            } else {
+                mostrarMsg("Error al crear la imagen");
+            }
+        } catch (Exception e) {
+            mostrarMsg("Error: " + e.getMessage());
+        }
     }
 
     private void seleccionarDeGaleria() {
@@ -149,32 +191,64 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, 2);
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         try {
-            if (requestCode == 1 && resultCode == RESULT_OK) {
-                // Mostrar la foto tomada
-                img.setImageURI(Uri.parse(urlCompletaFoto));
-            } else if (requestCode == 2 && resultCode == RESULT_OK && data != null) {
-                // Mostrar la imagen seleccionada de la galería
-                Uri imagenSeleccionada = data.getData();
-                img.setImageURI(imagenSeleccionada);
-                urlCompletaFoto = imagenSeleccionada.toString(); // Guardar la URI de la imagen
+            if (resultCode == RESULT_OK) {
+                if (requestCode == 1) { // Foto tomada con la cámara
+                    if (urlCompletaFoto != null && !urlCompletaFoto.isEmpty()) {
+                        File file = new File(urlCompletaFoto);
+                        if (file.exists()) {
+                            img.setImageURI(Uri.fromFile(file));
+                        } else {
+                            mostrarMsg("No se pudo cargar la imagen tomada, archivo no encontrado.");
+                        }
+                    } else {
+                        mostrarMsg("Ruta de la imagen tomada no válida.");
+                    }
+                } else if (requestCode == 2 && data != null) { // Imagen seleccionada de la galería
+                    Uri imagenSeleccionada = data.getData();
+                    if (imagenSeleccionada != null) {
+                        String rutaAbsoluta = obtenerRutaAbsoluta(imagenSeleccionada);
+                        if (rutaAbsoluta != null) {
+                            urlCompletaFoto = rutaAbsoluta;
+                            img.setImageURI(Uri.parse(urlCompletaFoto));
+                        } else {
+                            mostrarMsg("No se pudo obtener la ruta de la imagen seleccionada.");
+                        }
+                    } else {
+                        mostrarMsg("No se seleccionó ninguna imagen.");
+                    }
+                }
             } else {
-                mostrarMsg("Operación cancelada");
+                mostrarMsg("Operación cancelada.");
             }
         } catch (Exception e) {
-            mostrarMsg("Error: " + e.getMessage());
+            mostrarMsg("Error en onActivityResult: " + e.getMessage());
         }
+    }
+
+    private String obtenerRutaAbsoluta(Uri uri) {
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+        if (cursor != null) {
+            int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            String ruta = cursor.getString(columnIndex);
+            cursor.close();
+            return ruta;
+        }
+        return null;
     }
 
     private File crearImagenFactura() throws Exception {
         String fechaHoraMs = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()),
-                fileName = "imagen_"+ fechaHoraMs+"_";
+                fileName = "imagen_" + fechaHoraMs + "_";
         File dirAlmacenamiento = getExternalFilesDir(Environment.DIRECTORY_DCIM);
-        if( dirAlmacenamiento.exists()==false ){
+        if (dirAlmacenamiento.exists() == false) {
             dirAlmacenamiento.mkdir();
         }
         File image = File.createTempFile(fileName, ".jpg", dirAlmacenamiento);
@@ -183,7 +257,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void mostrarMsg(String msg){
+    private void mostrarMsg(String msg) {
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
     }
 
@@ -218,24 +292,23 @@ public class MainActivity extends AppCompatActivity {
             tempVal = findViewById(R.id.txtTotal);
             String total = tempVal.getText().toString();
 
-
-            // Obtener la categoría seleccionada del Spinner
             String categoria = spnCategoria.getSelectedItem().toString();
 
-            // Validar que los campos no estén vacíos
             if (fecha.isEmpty() || concepto.isEmpty() || total.isEmpty() || categoria.isEmpty()) {
                 Toast.makeText(this, "Por favor, complete todos los campos.", Toast.LENGTH_LONG).show();
                 return;
             }
 
-            // Preparar los datos para la base de datos
-            String idUsuario = "1"; // ID del usuario (puedes obtenerlo dinámicamente si es necesario)
-            String[] datos = {idGasto, idUsuario, categoria, fecha, concepto, total, urlCompletaFoto};
+            // Obtener idUsuario desde el Intent si existe, si no, usar "1" por defecto
+            String idUsuario = "1";
+            Bundle parametros = getIntent().getExtras();
+            if (parametros != null && parametros.containsKey("idUsuario")) {
+                idUsuario = String.valueOf(parametros.getInt("idUsuario"));
+            }
 
-            // Guardar en la base de datos
+            String[] datos = {idGasto, idUsuario, categoria, fecha, concepto, total, urlCompletaFoto};
             String resultado = db.administrar_gastos(accion, datos);
 
-            // Mostrar mensaje de éxito o error
             if (resultado.equals("ok")) {
                 Toast.makeText(this, "Registro guardado con éxito.", Toast.LENGTH_LONG).show();
                 AbrirVentana();
@@ -246,6 +319,6 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
-
-
 }
+
+
