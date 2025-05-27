@@ -6,18 +6,12 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -42,48 +36,42 @@ public class MainActivity extends AppCompatActivity {
     String accion = "nuevo", idGasto = "";
 
     ImageView img;
-
     String urlCompletaFoto = "";
-
     Intent tomarfotoIntent;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         db = new DB(this);
         btn = findViewById(R.id.btnguardarGasto);
         btn.setOnClickListener(View -> guardarAmigo());
+
         img = findViewById(R.id.imgFotoFactura);
         img.setImageResource(R.mipmap.ic_launcher_round); // Imagen por defecto
 
         fab = findViewById(R.id.fabVerGastos);
         fab.setOnClickListener(view -> AbrirVentana());
-        spnCategoria = findViewById(R.id.spncategoria);
 
+        spnCategoria = findViewById(R.id.spncategoria);
 
         mostrarDatos();
         tomarfoto();
 
         img.setOnClickListener(view -> mostrarOpciones());
-        // Obtén el idUsuario del Intent
+
+        // Mostrar nombre del usuario
         int idUsuario = getIntent().getIntExtra("idUsuario", -1);
-
         TextView txtNombreUsuario = findViewById(R.id.txtNombredeUsuarioPrincipal);
-
         if (idUsuario == -1) {
             txtNombreUsuario.setText("Usuario no identificado");
         } else {
-            // Consulta el nombre en la base de datos
             DB dbHelper = new DB(this);
             SQLiteDatabase db = dbHelper.getReadableDatabase();
             Cursor cursor = db.rawQuery("SELECT nombre FROM usuarios WHERE idUsuario = ?", new String[]{String.valueOf(idUsuario)});
             if (cursor.moveToFirst()) {
-                String nombreUsuario = cursor.getString(0);
-                txtNombreUsuario.setText(nombreUsuario);
+                txtNombreUsuario.setText(cursor.getString(0));
             } else {
                 txtNombreUsuario.setText("Usuario no identificado");
             }
@@ -91,18 +79,28 @@ public class MainActivity extends AppCompatActivity {
             db.close();
         }
 
-// Recibe el usuario o idUsuario desde el Intent
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            if (extras.containsKey("usuario")) {
-                String usuario = extras.getString("usuario");
-                // Aquí puedes usar el nombre de usuario
-            }
-            if (extras.containsKey("idUsuario")) {
-                int idUsuario1 = extras.getInt("idUsuario");
+        // Botón salir
+        setupExitButton();
+    }
 
-            }
-        }
+    private void setupExitButton() {
+        Button btnExit = findViewById(R.id.btnCerrarSesion);
+        btnExit.setOnClickListener(v -> showExitConfirmation());
+    }
+
+    private void showExitConfirmation() {
+        new AlertDialog.Builder(this)
+                .setTitle("Cerrar aplicación")
+                .setMessage("¿Estás seguro que deseas salir?")
+                .setPositiveButton("Sí", (dialog, which) -> closeApp())
+                .setNegativeButton("No", null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
+    private void closeApp() {
+        finishAffinity(); // Cierra todas las actividades
+        System.exit(0);   // Finaliza el proceso
     }
 
     private void mostrarOpciones() {
@@ -110,15 +108,9 @@ public class MainActivity extends AppCompatActivity {
         builder.setTitle("Seleccionar opción")
                 .setItems(new CharSequence[]{"Tomar foto", "Seleccionar de la galería", "Cancelar"}, (dialog, which) -> {
                     switch (which) {
-                        case 0: // Tomar foto
-                            tomarfoto();
-                            break;
-                        case 1: // Seleccionar de la galería
-                            seleccionarDeGaleria();
-                            break;
-                        case 2: // Cancelar
-                            dialog.dismiss();
-                            break;
+                        case 0: tomarfoto(); break;
+                        case 1: seleccionarDeGaleria(); break;
+                        case 2: dialog.dismiss(); break;
                     }
                 });
         builder.create().show();
@@ -128,20 +120,17 @@ public class MainActivity extends AppCompatActivity {
         try {
             Bundle parametros = getIntent().getExtras();
             if (parametros == null || !parametros.containsKey("accion")) {
-                // Si vienes del login, inicializa para nuevo gasto
                 accion = "nuevo";
                 idGasto = "";
-                tempVal = findViewById(R.id.txtfechaGasto);
-                tempVal.setText("");
-                tempVal = findViewById(R.id.txtconceptoGasto);
-                tempVal.setText("");
-                tempVal = findViewById(R.id.txtTotal);
-                tempVal.setText("");
+                tempVal = findViewById(R.id.txtfechaGasto); tempVal.setText("");
+                tempVal = findViewById(R.id.txtconceptoGasto); tempVal.setText("");
+                tempVal = findViewById(R.id.txtTotal); tempVal.setText("");
                 urlCompletaFoto = "";
                 img.setImageResource(R.mipmap.ic_launcher_round);
                 spnCategoria.setSelection(0);
                 return;
             }
+
             accion = parametros.getString("accion");
             if (accion.equals("modificar")) {
                 JSONObject datos = new JSONObject(parametros.getString("gastos"));
@@ -166,9 +155,6 @@ public class MainActivity extends AppCompatActivity {
                         mostrarMsg("No se pudo cargar la imagen, archivo no encontrado.");
                         img.setImageResource(R.mipmap.ic_launcher_round);
                     }
-                } else {
-                    mostrarMsg("No se pudo cargar la imagen, ruta no válida.");
-                    img.setImageResource(R.mipmap.ic_launcher_round);
                 }
 
                 spnCategoria.setSelection(obtenerPosicionCategoria(datos.getString("Categoria")));
@@ -194,22 +180,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_CAMERA_PERMISSION) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                abrirCamara();
-            } else {
-                mostrarMsg("Permiso de cámara denegado.");
-            }
+        if (requestCode == REQUEST_CAMERA_PERMISSION && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            abrirCamara();
+        } else {
+            mostrarMsg("Permiso de cámara denegado.");
         }
     }
 
     private void abrirCamara() {
         tomarfotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        File fotoFactura = null;
         try {
-            fotoFactura = crearImagenFactura();
+            File fotoFactura = crearImagenFactura();
             if (fotoFactura != null) {
-                Uri uriFotoFactura = FileProvider.getUriForFile(MainActivity.this,
+                Uri uriFotoFactura = FileProvider.getUriForFile(this,
                         "com.ugb.miprimeraaplicacion.fileprovider", fotoFactura);
                 tomarfotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, uriFotoFactura);
                 startActivityForResult(tomarfotoIntent, 1);
@@ -227,36 +210,27 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, 2);
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         try {
             if (resultCode == RESULT_OK) {
-                if (requestCode == 1) { // Foto tomada con la cámara
-                    if (urlCompletaFoto != null && !urlCompletaFoto.isEmpty()) {
-                        File file = new File(urlCompletaFoto);
-                        if (file.exists()) {
-                            img.setImageURI(Uri.fromFile(file));
-                        } else {
-                            mostrarMsg("No se pudo cargar la imagen tomada, archivo no encontrado.");
-                        }
+                if (requestCode == 1 && urlCompletaFoto != null) {
+                    File file = new File(urlCompletaFoto);
+                    if (file.exists()) {
+                        img.setImageURI(Uri.fromFile(file));
                     } else {
-                        mostrarMsg("Ruta de la imagen tomada no válida.");
+                        mostrarMsg("Archivo de imagen no encontrado.");
                     }
-                } else if (requestCode == 2 && data != null) { // Imagen seleccionada de la galería
+                } else if (requestCode == 2 && data != null) {
                     Uri imagenSeleccionada = data.getData();
-                    if (imagenSeleccionada != null) {
-                        String rutaAbsoluta = obtenerRutaAbsoluta(imagenSeleccionada);
-                        if (rutaAbsoluta != null) {
-                            urlCompletaFoto = rutaAbsoluta;
-                            img.setImageURI(Uri.parse(urlCompletaFoto));
-                        } else {
-                            mostrarMsg("No se pudo obtener la ruta de la imagen seleccionada.");
-                        }
+                    String rutaAbsoluta = obtenerRutaAbsoluta(imagenSeleccionada);
+                    if (rutaAbsoluta != null) {
+                        urlCompletaFoto = rutaAbsoluta;
+                        img.setImageURI(Uri.parse(urlCompletaFoto));
                     } else {
-                        mostrarMsg("No se seleccionó ninguna imagen.");
+                        mostrarMsg("No se pudo obtener la ruta de la imagen seleccionada.");
                     }
                 }
             } else {
@@ -281,44 +255,37 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private File crearImagenFactura() throws Exception {
-        String fechaHoraMs = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()),
-                fileName = "imagen_" + fechaHoraMs + "_";
-        File dirAlmacenamiento = getExternalFilesDir(Environment.DIRECTORY_DCIM);
-        if (dirAlmacenamiento.exists() == false) {
-            dirAlmacenamiento.mkdir();
+        String fechaHora = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String nombreArchivo = "imagen_" + fechaHora + "_";
+        File directorio = getExternalFilesDir(Environment.DIRECTORY_DCIM);
+        if (!directorio.exists()) {
+            directorio.mkdir();
         }
-        File image = File.createTempFile(fileName, ".jpg", dirAlmacenamiento);
+        File image = File.createTempFile(nombreArchivo, ".jpg", directorio);
         urlCompletaFoto = image.getAbsolutePath();
         return image;
     }
 
-
     private void mostrarMsg(String msg) {
-        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
     }
 
     private int obtenerPosicionCategoria(String categoria) {
-        // Aquí debes implementar la lógica para obtener la posición de la categoría en el Spinner
-        // Por ejemplo, puedes recorrer el Spinner y comparar los valores
         for (int i = 0; i < spnCategoria.getCount(); i++) {
             if (spnCategoria.getItemAtPosition(i).toString().equals(categoria)) {
                 return i;
             }
         }
-        return 0; // Devuelve 0 si no se encuentra la categoría
+        return 0;
     }
-
 
     private void AbrirVentana() {
         Intent intent = new Intent(this, lista_gastos.class);
         startActivity(intent);
-
     }
-
 
     private void guardarAmigo() {
         try {
-            // Obtener los valores de los campos
             tempVal = findViewById(R.id.txtfechaGasto);
             String fecha = tempVal.getText().toString();
 
@@ -331,11 +298,10 @@ public class MainActivity extends AppCompatActivity {
             String categoria = spnCategoria.getSelectedItem().toString();
 
             if (fecha.isEmpty() || concepto.isEmpty() || total.isEmpty() || categoria.isEmpty()) {
-                Toast.makeText(this, "Por favor, complete todos los campos.", Toast.LENGTH_LONG).show();
+                mostrarMsg("Por favor, complete todos los campos.");
                 return;
             }
 
-            // Obtener idUsuario desde el Intent si existe, si no, usar "1" por defecto
             String idUsuario = "1";
             Bundle parametros = getIntent().getExtras();
             if (parametros != null && parametros.containsKey("idUsuario")) {
@@ -346,15 +312,13 @@ public class MainActivity extends AppCompatActivity {
             String resultado = db.administrar_gastos(accion, datos);
 
             if (resultado.equals("ok")) {
-                Toast.makeText(this, "Registro guardado con éxito.", Toast.LENGTH_LONG).show();
+                mostrarMsg("Registro guardado con éxito.");
                 AbrirVentana();
             } else {
-                Toast.makeText(this, "Error al guardar: " + resultado, Toast.LENGTH_LONG).show();
+                mostrarMsg("Error al guardar: " + resultado);
             }
         } catch (Exception e) {
-            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            mostrarMsg("Error: " + e.getMessage());
         }
     }
 }
-
-

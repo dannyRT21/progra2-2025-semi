@@ -1,13 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ahorro</string>
+    <!-- Títulos y textos principales -->
+    <string name="app_name">Rastreador de Gastos</string>
+    <string name="titulo_app">Rastreador de Gastos</string>
+    <string name="usuario_label">Usuario:</string>
+    <string name="gasto_total_label">Gasto Total: %1$s</string>
 
-    <!-- String array para las categorías -->
-    <string-array name="categorias">
-        <item>Recibo de Luz</item>
-        <item>Recibo de Agua</item>
-        <item>Línea de Teléfono</item>
-        <item>Gastos Personales</item>
-        <item>Útiles Escolares</item>
-        <item>Artículos de Higiene</item>
-    </string-array>
+    <!-- Textos de botones -->
+    <string name="boton_graficos">📊 Gráficos</string>
+    <string name="boton_salir">🚪 Salir</string>
+    <string name="boton_guardar">Guardar Gasto</string>
+
+    <!-- Placeholders para campos de entrada -->
+    <string name="hint_fecha">Fecha</string>
+    <string name="hint_concepto">Concepto</string>
+    <string name="hint_monto">Monto en $</string>
+
+    <!-- Mensajes del sistema -->
+    <string name="msg_confirmar_salida">¿Estás seguro que deseas salir?</string>
+    <string name="msg_si">Sí</string>
+    <string name="msg_no">No</string>
+    <string name="msg_guardado_exito">Registro guardado con éxito</string>
+    <string name="msg_error_guardar">Error al guardar: %1$s</string>
+
+    <!-- Textos para opciones de imagen -->
+    <string name="opcion_tomar_foto">Tomar foto</string>
+    <string name="opcion_galeria">Seleccionar de la galería</string>
+    <string name="opcion_cancelar">Cancelar</string>
+    <string name="titulo_seleccion_imagen">Seleccionar opción</string>
 </resources>

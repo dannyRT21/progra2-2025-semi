@@ -31,6 +31,7 @@
         <activity android:name=".MainActivity" android:exported="true"/>
         <activity android:name=".registrar_user" android:exported="true"/>
         <activity android:name=".lista_gastos" android:exported="true"/>
+        <activity android:name=".GraficosActivity" android:exported="true"/>
 
         <provider
             android:authorities="com.ugb.miprimeraaplicacion.fileprovider"

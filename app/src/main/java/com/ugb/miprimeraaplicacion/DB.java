@@ -18,6 +18,11 @@ public class DB extends SQLiteOpenHelper {
             "IdGasto INTEGER PRIMARY KEY AUTOINCREMENT, " +
             "IdUsuario INTEGER, Categoria TEXT, Fecha TEXT, Concepto TEXT, Total REAL, UrlFoto TEXT)";
 
+    private static final String SQL_CREATE_INGRESOS = "CREATE TABLE Ingresos (" +
+            "IdIngreso INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            "IdUsuario INTEGER, Categoria TEXT, Fecha TEXT, Concepto TEXT, Total REAL)";
+
+
     public DB(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -92,3 +97,5 @@ public class DB extends SQLiteOpenHelper {
         return db.rawQuery("SELECT * FROM Gastos", null);
     }
 }
+
+

@@ -10,8 +10,9 @@
  <View
      android:id="@+id/divsion"
      android:layout_width="match_parent"
-     android:layout_height="8dp"
-     android:layout_marginBottom="16dp" />
+     android:layout_height="0dp"
+     android:layout_marginBottom="16dp"
+     android:background="@android:color/white" />
 
  <!-- Título de la app -->
  <TextView
@@ -43,27 +44,23 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginEnd="12dp"
-      android:backgroundTint="@color/black"
-      android:onClick="irAGraficas"
+      android:background="@drawable/rounded_button_dark"
       android:text="📊 Gráficos"
       android:textColor="@android:color/white"
       android:elevation="3dp"
       android:paddingLeft="16dp"
-      android:paddingRight="16dp"
-      android:background="@drawable/rounded_button_dark" />
+      android:paddingRight="16dp" />
 
   <Button
       android:id="@+id/btnCerrarSesion"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:backgroundTint="@color/black"
-      android:onClick="cerrarSesion"
+      android:background="@drawable/rounded_button_dark"
       android:text="🚪 Salir"
       android:textColor="@android:color/white"
       android:elevation="3dp"
       android:paddingLeft="16dp"
-      android:paddingRight="16dp"
-      android:background="@drawable/rounded_button_dark" />
+      android:paddingRight="16dp" />
  </LinearLayout>
 
  <!-- Usuario y Total -->
@@ -111,10 +108,10 @@
 
   <Spinner
       android:id="@+id/spncategoria"
-      android:entries="@array/categorias"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_marginBottom="12dp" />
+      android:layout_marginBottom="12dp"
+      android:entries="@array/categorias" />
 
   <EditText
       android:id="@+id/txtfechaGasto"
@@ -182,7 +179,7 @@
       android:contentDescription="Ver Gastos"
       android:src="@android:drawable/ic_menu_view"
       app:tint="@android:color/white"
-      android:backgroundTint="@android:color/holo_blue_light"
+      android:backgroundTint="@android:color/holo_blue_dark"
       app:rippleColor="@android:color/darker_gray" />
  </RelativeLayout>
 

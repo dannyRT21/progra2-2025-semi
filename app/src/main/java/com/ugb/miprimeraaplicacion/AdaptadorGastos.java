@@ -17,12 +17,13 @@ import java.util.ArrayList;
 public class AdaptadorGastos extends BaseAdapter {
 
     private Context context;
-    private ArrayList<Gastos> alGastos;
+    private final ArrayList<Gastos> alGastos;
     private LayoutInflater inflater;
 
     public AdaptadorGastos(Context context, ArrayList<Gastos> alGastos) {
         this.context = context;
         this.alGastos = alGastos;
+        this.inflater = LayoutInflater.from(context); // Inflador inicializado aquí
     }
 
     @Override
@@ -42,41 +43,45 @@ public class AdaptadorGastos extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if (inflater == null) {
-            inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        }
+        ViewHolder holder;
+
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.fotos, parent, false);
+            holder = new ViewHolder();
+            holder.lblCategoria = convertView.findViewById(R.id.lblCategoriaAdaptador);
+            holder.lblFecha = convertView.findViewById(R.id.lblFechaAdaptador);
+            holder.lblConcepto = convertView.findViewById(R.id.lblConceptoAdaptador);
+            holder.lblTotal = convertView.findViewById(R.id.lblTotalAdaptador);
+            holder.imgFoto = convertView.findViewById(R.id.imgFotoAdaptador);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
 
         Gastos gasto = alGastos.get(position);
-
-        TextView lblCategoria = convertView.findViewById(R.id.lblCategoriaAdaptador);
-        TextView lblFecha = convertView.findViewById(R.id.lblFechaAdaptador);
-        TextView lblConcepto = convertView.findViewById(R.id.lblConceptoAdaptador);
-        TextView lblTotal = convertView.findViewById(R.id.lblTotalAdaptador);
-        ImageView imgFoto = convertView.findViewById(R.id.imgFotoAdaptador);
-
-        lblCategoria.setText(gasto.getCategoria());
-        lblFecha.setText(gasto.getFecha());
-        lblConcepto.setText(gasto.getConcepto());
-        lblTotal.setText(gasto.getTotal());
+        holder.lblCategoria.setText(gasto.getCategoria());
+        holder.lblFecha.setText(gasto.getFecha());
+        holder.lblConcepto.setText(gasto.getConcepto());
+        holder.lblTotal.setText(gasto.getTotal());
 
         String urlFoto = gasto.getUrlFoto();
         if (urlFoto != null && !urlFoto.isEmpty()) {
             File file = new File(urlFoto);
             if (file.exists()) {
                 Bitmap bitmap = BitmapFactory.decodeFile(urlFoto);
-                imgFoto.setImageBitmap(bitmap);
+                holder.imgFoto.setImageBitmap(bitmap);
             } else {
-                imgFoto.setImageResource(R.mipmap.ic_launcher_round);
-                Toast.makeText(context, "No se pudo cargar la imagen, archivo no encontrado.", Toast.LENGTH_SHORT).show();
+                holder.imgFoto.setImageResource(R.mipmap.ic_launcher_round);
             }
         } else {
-            imgFoto.setImageResource(R.mipmap.ic_launcher_round);
-            Toast.makeText(context, "Ruta de imagen no válida.", Toast.LENGTH_SHORT).show();
+            holder.imgFoto.setImageResource(R.mipmap.ic_launcher_round);
         }
 
         return convertView;
+    }
+
+    static class ViewHolder {
+        TextView lblCategoria, lblFecha, lblConcepto, lblTotal;
+        ImageView imgFoto;
     }
 }

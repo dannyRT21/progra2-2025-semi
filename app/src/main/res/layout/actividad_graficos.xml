@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tabHost"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#FAFAFA">
+
+        <!-- Tabs -->
+        <TabWidget
+            android:id="@android:id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#00796B"
+            android:layout_marginBottom="4dp" />
+
+        <!-- Contenido de Tabs -->
+        <FrameLayout
+            android:id="@android:id/tabcontent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#FFFFFF"
+            android:padding="16dp">
+
+            <!-- TAB1 con barras verticales -->
+            <ScrollView
+                android:id="@+id/General"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="bottom"
+                    android:paddingBottom="32dp"
+                    android:layout_gravity="center_horizontal"
+                    android:weightSum="6">
+
+                    <!-- Recibo de Luz -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="200dp"
+                        android:orientation="vertical"
+                        android:gravity="bottom"
+                        android:layout_marginHorizontal="4dp">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="120dp"
+                            android:background="#FF5722" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Luz"
+                            android:gravity="center"
+                            android:textColor="#333333"
+                            android:textSize="12sp"
+                            android:layout_marginTop="8dp"/>
+                    </LinearLayout>
+
+                    <!-- Recibo de Agua -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="200dp"
+                        android:orientation="vertical"
+                        android:gravity="bottom"
+                        android:layout_marginHorizontal="4dp">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:background="#03A9F4" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Agua"
+                            android:gravity="center"
+                            android:textColor="#333333"
+                            android:textSize="12sp"
+                            android:layout_marginTop="8dp"/>
+                    </LinearLayout>
+
+                    <!-- Línea de Teléfono -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="200dp"
+                        android:orientation="vertical"
+                        android:gravity="bottom"
+                        android:layout_marginHorizontal="4dp">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="90dp"
+                            android:background="#9C27B0" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Teléfono"
+                            android:gravity="center"
+                            android:textColor="#333333"
+                            android:textSize="12sp"
+                            android:layout_marginTop="8dp"/>
+                    </LinearLayout>
+
+                    <!-- Gastos Personales -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="200dp"
+                        android:orientation="vertical"
+                        android:gravity="bottom"
+                        android:layout_marginHorizontal="4dp">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="140dp"
+                            android:background="#4CAF50" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Personales"
+                            android:gravity="center"
+                            android:textColor="#333333"
+                            android:textSize="12sp"
+                            android:layout_marginTop="8dp"/>
+                    </LinearLayout>
+
+                    <!-- Útiles Escolares -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="200dp"
+                        android:orientation="vertical"
+                        android:gravity="bottom"
+                        android:layout_marginHorizontal="4dp">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp"
+                            android:background="#FFC107" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Escolares"
+                            android:gravity="center"
+                            android:textColor="#333333"
+                            android:textSize="12sp"
+                            android:layout_marginTop="8dp"/>
+                    </LinearLayout>
+
+                    <!-- Artículos de Higiene -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="200dp"
+                        android:orientation="vertical"
+                        android:gravity="bottom"
+                        android:layout_marginHorizontal="4dp">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:background="#00BCD4" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Higiene"
+                            android:gravity="center"
+                            android:textColor="#333333"
+                            android:textSize="12sp"
+                            android:layout_marginTop="8dp"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </ScrollView>
+
+            <!-- TAB2 y TAB3 los puedes personalizar igual si los usas -->
+            <ScrollView
+                android:id="@+id/Gastos"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <ScrollView
+                android:id="@+id/Ingresos"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <Button
+                android:id="@+id/btnGraficos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gráficos"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"/>
+
+        </FrameLayout>
+    </LinearLayout>
+</TabHost>

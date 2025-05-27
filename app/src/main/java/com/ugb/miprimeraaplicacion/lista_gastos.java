@@ -37,7 +37,7 @@ public class lista_gastos extends Activity {
     FloatingActionButton fab;
     DB db;
     Cursor cGastos;
-    
+
 
     ListView ltsGastos;
     final ArrayList<Gastos> alGastos = new ArrayList<Gastos>();
@@ -154,7 +154,7 @@ public class lista_gastos extends Activity {
                 mostrarDatosGastos();
 
             } else {
-                mostrarMsg("No hay gastos que mostrar, vete alv");
+                mostrarMsg("No hay gastos que mostrar");
                 abrirVentana();
             }
         } catch (Exception e) {
