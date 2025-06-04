@@ -8,204 +8,380 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="#FAFAFA">
+        android:background="#F5F5F5">
 
-        <!-- Tabs -->
+        <!-- Tabs mejoradas -->
         <TabWidget
             android:id="@android:id/tabs"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:background="#00796B"
-            android:layout_marginBottom="4dp" />
+            android:divider="@null"/>
 
         <!-- Contenido de Tabs -->
         <FrameLayout
             android:id="@android:id/tabcontent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#FFFFFF"
-            android:padding="16dp">
+            android:padding="8dp">
 
-            <!-- TAB1 con barras verticales -->
+            <!-- TAB1 - Vista General (Gráfico de barras) -->
             <ScrollView
                 android:id="@+id/General"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:fillViewport="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="bottom"
-                    android:paddingBottom="32dp"
-                    android:layout_gravity="center_horizontal"
-                    android:weightSum="6">
+                    android:orientation="vertical">
 
-                    <!-- Recibo de Luz -->
+                    <!-- Filtros de tiempo -->
                     <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="200dp"
-                        android:orientation="vertical"
-                        android:gravity="bottom"
-                        android:layout_marginHorizontal="4dp">
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:layout_marginBottom="16dp">
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="120dp"
-                            android:background="#FF5722" />
+                        <Button
+                            android:id="@+id/btnAnio"
+                            android:layout_width="0dp"
+                            android:layout_height="36dp"
+                            android:layout_weight="1"
+                            android:text="Por año"
+                            android:background="@drawable/btn_selector"
+                            android:textColor="@color/design_default_color_secondary"
+                            android:layout_margin="2dp"/>
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Luz"
-                            android:gravity="center"
-                            android:textColor="#333333"
-                            android:textSize="12sp"
-                            android:layout_marginTop="8dp"/>
+                        <Button
+                            android:id="@+id/btnMes"
+                            android:layout_width="0dp"
+                            android:layout_height="36dp"
+                            android:layout_weight="1"
+                            android:text="Por mes"
+                            android:background="@drawable/btn_selector"
+                            android:textColor="@color/design_default_color_primary_variant"
+                            android:layout_margin="2dp"/>
+
+                        <Button
+                            android:id="@+id/btnSemana"
+                            android:layout_width="0dp"
+                            android:layout_height="36dp"
+                            android:layout_weight="1"
+                            android:text="Por semana"
+                            android:background="@drawable/btn_selector"
+                            android:textColor="@color/design_default_color_primary_variant"
+                            android:layout_margin="2dp"/>
+
+                        <Button
+                            android:id="@+id/btnDia"
+                            android:layout_width="0dp"
+                            android:layout_height="36dp"
+                            android:layout_weight="1"
+                            android:text="Por día"
+                            android:background="@drawable/btn_selector"
+                            android:textColor="@color/design_default_color_primary_variant"
+                            android:layout_margin="2dp"/>
                     </LinearLayout>
 
-                    <!-- Recibo de Agua -->
+                    <!-- Gráfico de barras verticales -->
                     <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="200dp"
-                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:orientation="horizontal"
                         android:gravity="bottom"
-                        android:layout_marginHorizontal="4dp">
+                        android:background="#FFFFFF"
+                        android:elevation="4dp"
+                        android:padding="16dp">
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="100dp"
-                            android:background="#03A9F4" />
+                        <!-- Recibo de Luz -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="bottom"
+                            android:layout_marginHorizontal="4dp">
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Agua"
-                            android:gravity="center"
-                            android:textColor="#333333"
-                            android:textSize="12sp"
-                            android:layout_marginTop="8dp"/>
+                            <View
+                                android:id="@+id/barLuz"
+                                android:layout_width="match_parent"
+                                android:layout_height="120dp"
+                                android:background="#FF5722"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Luz"
+                                android:gravity="center"
+                                android:textColor="#333333"
+                                android:textSize="12sp"
+                                android:layout_marginTop="8dp"/>
+                        </LinearLayout>
+
+                        <!-- Recibo de Agua -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="bottom"
+                            android:layout_marginHorizontal="4dp">
+
+                            <View
+                                android:id="@+id/barAgua"
+                                android:layout_width="match_parent"
+                                android:layout_height="100dp"
+                                android:background="#03A9F4"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Agua"
+                                android:gravity="center"
+                                android:textColor="#333333"
+                                android:textSize="12sp"
+                                android:layout_marginTop="8dp"/>
+                        </LinearLayout>
+
+                        <!-- Línea de Teléfono -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="bottom"
+                            android:layout_marginHorizontal="4dp">
+
+                            <View
+                                android:id="@+id/barTelefono"
+                                android:layout_width="match_parent"
+                                android:layout_height="90dp"
+                                android:background="#9C27B0"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Teléfono"
+                                android:gravity="center"
+                                android:textColor="#333333"
+                                android:textSize="12sp"
+                                android:layout_marginTop="8dp"/>
+                        </LinearLayout>
+
+                        <!-- Gastos Personales -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="bottom"
+                            android:layout_marginHorizontal="4dp">
+
+                            <View
+                                android:id="@+id/barPersonales"
+                                android:layout_width="match_parent"
+                                android:layout_height="140dp"
+                                android:background="#4CAF50"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Personales"
+                                android:gravity="center"
+                                android:textColor="#333333"
+                                android:textSize="12sp"
+                                android:layout_marginTop="8dp"/>
+                        </LinearLayout>
+
+                        <!-- Útiles Escolares -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="bottom"
+                            android:layout_marginHorizontal="4dp">
+
+                            <View
+                                android:id="@+id/barEscolares"
+                                android:layout_width="match_parent"
+                                android:layout_height="70dp"
+                                android:background="#FFC107"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Escolares"
+                                android:gravity="center"
+                                android:textColor="#333333"
+                                android:textSize="12sp"
+                                android:layout_marginTop="8dp"/>
+                        </LinearLayout>
+
+                        <!-- Artículos de Higiene -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="bottom"
+                            android:layout_marginHorizontal="4dp">
+
+                            <View
+                                android:id="@+id/barHigiene"
+                                android:layout_width="match_parent"
+                                android:layout_height="80dp"
+                                android:background="#00BCD4"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Higiene"
+                                android:gravity="center"
+                                android:textColor="#333333"
+                                android:textSize="12sp"
+                                android:layout_marginTop="8dp"/>
+                        </LinearLayout>
                     </LinearLayout>
 
-                    <!-- Línea de Teléfono -->
+                    <!-- Totales y estadísticas -->
                     <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="200dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:gravity="bottom"
-                        android:layout_marginHorizontal="4dp">
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="90dp"
-                            android:background="#9C27B0" />
+                        android:layout_marginTop="16dp"
+                        android:background="#FFFFFF"
+                        android:elevation="4dp"
+                        android:padding="16dp">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Teléfono"
-                            android:gravity="center"
-                            android:textColor="#333333"
-                            android:textSize="12sp"
-                            android:layout_marginTop="8dp"/>
-                    </LinearLayout>
+                            android:text="TOTAL GENERAL"
+                            android:textColor="#00796B"
+                            android:textSize="18sp"
+                            android:textStyle="bold"/>
 
-                    <!-- Gastos Personales -->
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="200dp"
-                        android:orientation="vertical"
-                        android:gravity="bottom"
-                        android:layout_marginHorizontal="4dp">
+                        <TextView
+                            android:id="@+id/totalGeneral"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="$1,250.00"
+                            android:textColor="#333333"
+                            android:textSize="24sp"
+                            android:layout_marginTop="8dp"/>
 
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="140dp"
-                            android:background="#4CAF50" />
+                            android:layout_height="1dp"
+                            android:background="#EEEEEE"
+                            android:layout_marginVertical="12dp"/>
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Personales"
-                            android:gravity="center"
-                            android:textColor="#333333"
-                            android:textSize="12sp"
-                            android:layout_marginTop="8dp"/>
-                    </LinearLayout>
+                            android:orientation="horizontal">
 
-                    <!-- Útiles Escolares -->
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="200dp"
-                        android:orientation="vertical"
-                        android:gravity="bottom"
-                        android:layout_marginHorizontal="4dp">
+                            <TextView
+                                android:id="@+id/textViewGastosLabel"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="GASTOS"
+                                android:textColor="#D32F2F"
+                                android:textSize="16sp"/>
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="70dp"
-                            android:background="#FFC107" />
+                            <TextView
+                                android:id="@+id/textViewIngresosLabel"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="INGRESOS"
+                                android:textColor="#388E3C"
+                                android:textSize="16sp"
+                                android:gravity="end"/>
+                        </LinearLayout>
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Escolares"
-                            android:gravity="center"
-                            android:textColor="#333333"
-                            android:textSize="12sp"
-                            android:layout_marginTop="8dp"/>
-                    </LinearLayout>
-
-                    <!-- Artículos de Higiene -->
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="200dp"
-                        android:orientation="vertical"
-                        android:gravity="bottom"
-                        android:layout_marginHorizontal="4dp">
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="80dp"
-                            android:background="#00BCD4" />
-
-                        <TextView
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Higiene"
-                            android:gravity="center"
-                            android:textColor="#333333"
-                            android:textSize="12sp"
-                            android:layout_marginTop="8dp"/>
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/gastosText"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="$950.00"
+                                android:textColor="#D32F2F"
+                                android:textSize="18sp"/>
+
+                            <TextView
+                                android:id="@+id/ingresosText"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:text="$300.00"
+                                android:textColor="#388E3C"
+                                android:textSize="18sp"
+                                android:gravity="end"/>
+                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
             </ScrollView>
 
-            <!-- TAB2 y TAB3 los puedes personalizar igual si los usas -->
+            <!-- TAB2 - Gastos -->
             <ScrollView
                 android:id="@+id/Gastos"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:fillViewport="true">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/textViewGastos"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Contenido de Gastos"
+                        android:textSize="18sp"
+                        android:gravity="center"/>
+
+                    <!-- Aquí puedes añadir más contenido específico de Gastos -->
+                </LinearLayout>
+            </ScrollView>
+
+            <!-- TAB3 - Ingresos -->
             <ScrollView
                 android:id="@+id/Ingresos"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:fillViewport="true">
 
-            <Button
-                android:id="@+id/btnGraficos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Gráficos"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
+                    <TextView
+                        android:id="@+id/textViewIngresos"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Contenido de Ingresos"
+                        android:textSize="18sp"
+                        android:gravity="center"/>
+
+                    <!-- Aquí puedes añadir más contenido específico de Ingresos -->
+                </LinearLayout>
+            </ScrollView>
         </FrameLayout>
     </LinearLayout>
 </TabHost>
