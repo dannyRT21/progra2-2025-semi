@@ -1,7 +1,9 @@
 // app/src/main/java/com/ugb/miprimeraaplicacion/Graficos.java
 package com.ugb.miprimeraaplicacion;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -15,6 +17,9 @@ public class Graficos extends Activity {
     private View barLuz, barAgua, barTelefono, barPersonales, barEscolares, barHigiene;
     private TextView totalGeneral, gastosText, ingresosText;
 
+    Button btn;
+
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +29,13 @@ public class Graficos extends Activity {
         inicializarVistasGrafico();
         configurarFiltros();
         actualizarDatos("mes"); // Por defecto
+
+        btn = findViewById(R.id.btnAgregarGastoDesdeGrafico);
+        btn.setOnClickListener(view -> AbrirClaseAgregarGasto());
+
+        btn = findViewById(R.id.btnIngresoAgregarDesdeGrafico);
+        btn.setOnClickListener(view -> AbrirClaseAgregarIngresoDesdeGrafico());
+
     }
 
     private void inicializarTabs() {
@@ -63,6 +75,17 @@ public class Graficos extends Activity {
                                 Color.parseColor("#00796B"));
             }
         });
+    }
+    private Void AbrirClaseAgregarGasto() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        return null;
+    }
+
+    private Void AbrirClaseAgregarIngresoDesdeGrafico() {
+        Intent intent = new Intent(this, agregar_ingresos.class);
+        startActivity(intent);
+        return null;
     }
 
     private void inicializarVistasGrafico() {

@@ -55,8 +55,7 @@ public class MainActivity extends AppCompatActivity {
         btn = findViewById(R.id.btnAgregarIngreso);
         btn.setOnClickListener(view -> AbrirClaseAgregarIngreso());
 
-        btn = findViewById(R.id.btnAgregarGasto);
-        btn.setOnClickListener(view -> AbrirClaseAgregarGasto());
+
 
 
         img = findViewById(R.id.imgFotoFactura);
@@ -122,11 +121,7 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
-    private Void AbrirClaseAgregarGasto() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        return null;
-    }
+
 
     private Void AbrirClaseGraficos() {
         Intent intent = new Intent(this, Graficos.class);

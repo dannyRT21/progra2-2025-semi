@@ -57,44 +57,48 @@
                             android:gravity="center_vertical"
                             android:paddingHorizontal="8dp">
                             <!-- Botón Salir -->
+
+
                             <Button
                                 android:id="@+id/btnsecionCerrar"
                                 android:layout_width="wrap_content"
-                                android:layout_height="36dp"
-                                android:layout_marginEnd="8dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="12dp"
+                                android:background="@drawable/rounded_button_dark"
                                 android:text="🚪 Salir"
-                                android:background="@drawable/rounded_button_teal"
-
-                                android:textColor="@color/white"
-                                android:textSize="14sp"
+                                android:textColor="@android:color/white"
+                                android:elevation="3dp"
                                 android:paddingLeft="16dp"
-                                android:paddingRight="16dp"/>
+                                android:paddingRight="16dp" />
+
 
                             <!-- Botón Agregar Gasto -->
+
                             <Button
-                                android:id="@+id/btnAgregarGasto"
+                                android:id="@+id/btnAgregarGastoDesdeGrafico"
                                 android:layout_width="wrap_content"
-                                android:layout_height="36dp"
-                                android:layout_marginEnd="8dp"
-                                android:background="@drawable/rounded_button_teal"
-                                android:text="➕ Gasto"
-                                android:textColor="@color/white"
-                                android:textSize="14sp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="12dp"
+                                android:background="@drawable/rounded_button_dark"
+                                android:text="➕ Agregar Gasto"
+                                android:textColor="@android:color/white"
+                                android:elevation="3dp"
                                 android:paddingLeft="16dp"
-                                android:paddingRight="16dp"/>
+                                android:paddingRight="16dp" />
 
                             <!-- Botón Agregar Ingreso -->
-                            <Button
-                                android:id="@+id/btnIngresoAgregar"
-                                android:layout_width="wrap_content"
-                                android:layout_height="36dp"
-                                android:background="@drawable/rounded_button_teal"
-                                android:text="💰 Ingreso"
-                                android:textColor="@color/white"
-                                android:textSize="14sp"
-                                android:paddingLeft="16dp"
-                                android:paddingRight="16dp"/>
 
+                            <Button
+                                android:id="@+id/btnIngresoAgregarDesdeGrafico"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="12dp"
+                                android:background="@drawable/rounded_button_dark"
+                                android:text="💰 Ingreso"
+                                android:textColor="@android:color/white"
+                                android:elevation="3dp"
+                                android:paddingLeft="16dp"
+                                android:paddingRight="16dp" />
                         </LinearLayout>
                     </HorizontalScrollView>.
 
