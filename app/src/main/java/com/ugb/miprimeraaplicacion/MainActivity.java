@@ -48,6 +48,17 @@ public class MainActivity extends AppCompatActivity {
         btn = findViewById(R.id.btnguardarGasto);
         btn.setOnClickListener(View -> guardarAmigo());
 
+
+        btn = findViewById(R.id.btnVerGraficosdesdeGastos);
+        btn.setOnClickListener(view -> AbrirClaseGraficos());
+
+        btn = findViewById(R.id.btnAgregarIngreso);
+        btn.setOnClickListener(view -> AbrirClaseAgregarIngreso());
+
+        btn = findViewById(R.id.btnAgregarGasto);
+        btn.setOnClickListener(view -> AbrirClaseAgregarGasto());
+
+
         img = findViewById(R.id.imgFotoFactura);
         img.setImageResource(R.mipmap.ic_launcher_round); // Imagen por defecto
 
@@ -58,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
 
         mostrarDatos();
         tomarfoto();
+
+
 
         img.setOnClickListener(view -> mostrarOpciones());
 
@@ -101,6 +114,24 @@ public class MainActivity extends AppCompatActivity {
     private void closeApp() {
         finishAffinity(); // Cierra todas las actividades
         System.exit(0);   // Finaliza el proceso
+    }
+
+    private Void AbrirClaseAgregarIngreso() {
+        Intent intent = new Intent(this, agregar_ingresos.class);
+        startActivity(intent);
+        return null;
+    }
+
+    private Void AbrirClaseAgregarGasto() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        return null;
+    }
+
+    private Void AbrirClaseGraficos() {
+        Intent intent = new Intent(this, Graficos.class);
+        startActivity(intent);
+        return null;
     }
 
     private void mostrarOpciones() {

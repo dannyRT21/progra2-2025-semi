@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/tabHost"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -36,6 +37,66 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+
+
+                    <HorizontalScrollView
+                        android:id="@+id/cintaBotones"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tituloApp"
+                        android:layout_marginTop="16dp"
+                        android:background="@color/material_dynamic_neutral60"
+                        android:paddingVertical="8dp"
+                        android:fillViewport="true"
+                        android:scrollbars="none">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:paddingHorizontal="8dp">
+                            <!-- Botón Salir -->
+                            <Button
+                                android:id="@+id/btnsecionCerrar"
+                                android:layout_width="wrap_content"
+                                android:layout_height="36dp"
+                                android:layout_marginEnd="8dp"
+                                android:text="🚪 Salir"
+                                android:background="@drawable/rounded_button_teal"
+
+                                android:textColor="@color/white"
+                                android:textSize="14sp"
+                                android:paddingLeft="16dp"
+                                android:paddingRight="16dp"/>
+
+                            <!-- Botón Agregar Gasto -->
+                            <Button
+                                android:id="@+id/btnAgregarGasto"
+                                android:layout_width="wrap_content"
+                                android:layout_height="36dp"
+                                android:layout_marginEnd="8dp"
+                                android:background="@drawable/rounded_button_teal"
+                                android:text="➕ Gasto"
+                                android:textColor="@color/white"
+                                android:textSize="14sp"
+                                android:paddingLeft="16dp"
+                                android:paddingRight="16dp"/>
+
+                            <!-- Botón Agregar Ingreso -->
+                            <Button
+                                android:id="@+id/btnIngresoAgregar"
+                                android:layout_width="wrap_content"
+                                android:layout_height="36dp"
+                                android:background="@drawable/rounded_button_teal"
+                                android:text="💰 Ingreso"
+                                android:textColor="@color/white"
+                                android:textSize="14sp"
+                                android:paddingLeft="16dp"
+                                android:paddingRight="16dp"/>
+
+                        </LinearLayout>
+                    </HorizontalScrollView>.
 
                     <!-- Filtros de tiempo -->
                     <LinearLayout
