@@ -38,12 +38,30 @@ public class agregar_ingresos extends AppCompatActivity {
         btn = findViewById(R.id.btnGuardarIngreso);
         btn.setOnClickListener(View -> guardarIngreso());
 
+        btn = findViewById(R.id.btnVerGraficos);
+        btn.setOnClickListener(View -> abrirClaseGraficos());
+
+        btn = findViewById(R.id.btnAgregarGasto);
+        btn.setOnClickListener(View -> abrirClaseGastos());
+
 
         fab = findViewById(R.id.fabVerIngresos);
         fab.setOnClickListener(view -> AbrirVentanadeIngreso());
 
         mostrarDatosdeIngresos();
 
+    }
+    private void abrirClaseGraficos() {
+        Intent intent = new Intent(this, Graficos.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+    }
+    private void abrirClaseGastos() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
 
     private void mostrarDatosdeIngresos() {
