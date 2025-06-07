@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         db = new DB(this);
+
         btn = findViewById(R.id.btnguardarGasto);
         btn.setOnClickListener(View -> guardarAmigo());
 
@@ -54,8 +55,6 @@ public class MainActivity extends AppCompatActivity {
 
         btn = findViewById(R.id.btnAgregarIngreso);
         btn.setOnClickListener(view -> AbrirClaseAgregarIngreso());
-
-
 
 
         img = findViewById(R.id.imgFotoFactura);
@@ -68,8 +67,6 @@ public class MainActivity extends AppCompatActivity {
 
         mostrarDatos();
         tomarfoto();
-
-
 
         img.setOnClickListener(view -> mostrarOpciones());
 

@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+
     android:padding="16dp">
 
     <!-- Título de la app -->
@@ -59,7 +60,6 @@
                 android:paddingLeft="12dp"
                 android:paddingRight="12dp" />
 
-
             <Button
                 android:id="@+id/btnsalir"
                 android:layout_width="wrap_content"
@@ -70,8 +70,6 @@
                 android:elevation="2dp"
                 android:paddingLeft="12dp"
                 android:paddingRight="12dp" />
-
-
         </LinearLayout>
     </HorizontalScrollView>
 
@@ -123,20 +121,23 @@
         android:padding="24dp"
         android:elevation="4dp">
 
+        <!-- Campo Fuente de Ingreso -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:hint="Fuente de ingreso">
+            android:hint="Fuente de Ingreso">
 
-            <AutoCompleteTextView
-                android:id="@+id/spnFuenteIngreso"
+            <EditText
+                android:id="@+id/txtFuentedeIngreso"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="none"/>
+                android:inputType="textCapWords"
+                android:maxLines="1"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Campo Fecha -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -151,6 +152,7 @@
                 android:inputType="date"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Campo Descripción -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -165,6 +167,7 @@
                 android:inputType="textCapSentences"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Campo Monto -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -179,6 +182,7 @@
                 android:inputType="numberDecimal"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Botón Guardar -->
         <Button
             android:id="@+id/btnGuardarIngreso"
             android:layout_width="match_parent"
@@ -191,6 +195,7 @@
             android:elevation="2dp"
             android:fontFamily="sans-serif-medium"/>
 
+        <!-- FAB -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabVerIngresos"
             android:layout_width="123dp"
@@ -203,7 +208,5 @@
             android:src="@android:drawable/ic_menu_view"
             app:rippleColor="@android:color/darker_gray"
             app:tint="@android:color/white" />
-
     </LinearLayout>
-
 </RelativeLayout>
