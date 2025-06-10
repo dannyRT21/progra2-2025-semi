@@ -1,6 +1,7 @@
 package com.ugb.miprimeraaplicacion;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -24,6 +25,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
@@ -31,13 +33,16 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton fab;
     Button btn;
     Spinner spnCategoria;
-    TextView tempVal;
+    TextView tempVal, txtFecha;
     DB db;
     String accion = "nuevo", idGasto = "";
 
     ImageView img;
     String urlCompletaFoto = "";
     Intent tomarfotoIntent;
+
+    Calendar calendario;
+    int anio, mes, dia;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,28 +54,26 @@ public class MainActivity extends AppCompatActivity {
         btn = findViewById(R.id.btnguardarGasto);
         btn.setOnClickListener(View -> guardarAmigo());
 
-
         btn = findViewById(R.id.btnVerGraficosdesdeGastos);
         btn.setOnClickListener(view -> AbrirClaseGraficos());
 
         btn = findViewById(R.id.btnAgregarIngreso);
         btn.setOnClickListener(view -> AbrirClaseAgregarIngreso());
 
-
         img = findViewById(R.id.imgFotoFactura);
-        img.setImageResource(R.mipmap.ic_launcher_round); // Imagen por defecto
+        img.setImageResource(R.mipmap.ic_launcher_round);
 
         fab = findViewById(R.id.fabVerGastos);
         fab.setOnClickListener(view -> AbrirVentana());
 
         spnCategoria = findViewById(R.id.spncategoria);
+        txtFecha = findViewById(R.id.txtfechaGasto);
+        txtFecha.setOnClickListener(v -> mostrarSelectorFecha());
 
         mostrarDatos();
         tomarfoto();
-
         img.setOnClickListener(view -> mostrarOpciones());
 
-        // Mostrar nombre del usuario
         int idUsuario = getIntent().getIntExtra("idUsuario", -1);
         TextView txtNombreUsuario = findViewById(R.id.txtNombredeUsuarioPrincipal);
         if (idUsuario == -1) {
@@ -88,8 +91,21 @@ public class MainActivity extends AppCompatActivity {
             db.close();
         }
 
-        // Botón salir
         setupExitButton();
+    }
+
+    private void mostrarSelectorFecha() {
+        calendario = Calendar.getInstance();
+        anio = calendario.get(Calendar.YEAR);
+        mes = calendario.get(Calendar.MONTH);
+        dia = calendario.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
+            String fechaSeleccionada = String.format("%04d-%02d-%02d", year, month + 1, dayOfMonth);
+            txtFecha.setText(fechaSeleccionada);
+        }, anio, mes, dia);
+
+        datePickerDialog.show();
     }
 
     private void setupExitButton() {
@@ -108,8 +124,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void closeApp() {
-        finishAffinity(); // Cierra todas las actividades
-        System.exit(0);   // Finaliza el proceso
+        finishAffinity();
+        System.exit(0);
     }
 
     private Void AbrirClaseAgregarIngreso() {
@@ -117,8 +133,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
         return null;
     }
-
-
 
     private Void AbrirClaseGraficos() {
         Intent intent = new Intent(this, Graficos.class);
@@ -145,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
             if (parametros == null || !parametros.containsKey("accion")) {
                 accion = "nuevo";
                 idGasto = "";
-                tempVal = findViewById(R.id.txtfechaGasto); tempVal.setText("");
+                txtFecha.setText("");
                 tempVal = findViewById(R.id.txtconceptoGasto); tempVal.setText("");
                 tempVal = findViewById(R.id.txtTotal); tempVal.setText("");
                 urlCompletaFoto = "";
@@ -159,8 +173,7 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject datos = new JSONObject(parametros.getString("gastos"));
                 idGasto = datos.getString("IdGasto");
 
-                tempVal = findViewById(R.id.txtfechaGasto);
-                tempVal.setText(datos.getString("Fecha"));
+                txtFecha.setText(datos.getString("Fecha"));
 
                 tempVal = findViewById(R.id.txtconceptoGasto);
                 tempVal.setText(datos.getString("Concepto"));
@@ -309,8 +322,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void guardarAmigo() {
         try {
-            tempVal = findViewById(R.id.txtfechaGasto);
-            String fecha = tempVal.getText().toString();
+            String fecha = txtFecha.getText().toString();
 
             tempVal = findViewById(R.id.txtconceptoGasto);
             String concepto = tempVal.getText().toString();

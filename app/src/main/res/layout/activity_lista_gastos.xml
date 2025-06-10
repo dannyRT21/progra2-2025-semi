@@ -9,7 +9,6 @@
     android:padding="16dp"
     tools:context=".lista_gastos">
 
-  <!-- Spinner para filtrar categoría -->
   <Spinner
       android:id="@+id/searchCategory"
       android:layout_width="match_parent"
@@ -18,7 +17,7 @@
       android:layout_marginBottom="8dp"
       android:entries="@array/categorias" />
 
-  <!-- Barra de búsqueda -->
+
   <EditText
       android:id="@+id/txtBuscarGasto"
       android:layout_width="match_parent"
@@ -30,7 +29,7 @@
       android:drawablePadding="8dp"
       android:layout_marginBottom="16dp" />
 
-  <!-- Lista de resultados -->
+
   <ListView
       android:id="@+id/ltsGastos"
       android:layout_width="match_parent"
@@ -39,7 +38,7 @@
       android:divider="@android:color/darker_gray"
       android:dividerHeight="1dp" />
 
-  <!-- Botón flotante -->
+
   <com.google.android.material.floatingactionbutton.FloatingActionButton
       android:id="@+id/fabRegresarGasto"
       android:layout_width="wrap_content"

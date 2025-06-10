@@ -1,6 +1,21 @@
 package com.ugb.miprimeraaplicacion;
 
 public class Ingresos {
+    private String idIngreso;
+    private String idUsuario;
+    private String fuenteIngreso;
+    private String fechaIngreso;
+    private String descripcionIngreso;
+    private String montoIngreso;
+
+    public Ingresos(String idIngreso, String idUsuario, String fuenteIngreso, String fechaIngreso, String descripcionIngreso, String montoIngreso) {
+        this.idIngreso = idIngreso;
+        this.idUsuario = idUsuario;
+        this.fuenteIngreso = fuenteIngreso;
+        this.fechaIngreso = fechaIngreso;
+        this.descripcionIngreso = descripcionIngreso;
+        this.montoIngreso = montoIngreso;
+    }
 
     public String getIdIngreso() {
         return idIngreso;
@@ -50,23 +65,5 @@ public class Ingresos {
         this.montoIngreso = montoIngreso;
     }
 
-    public Ingresos(String idIngreso, String idUsuario, String fuenteIngreso, String fechaIngreso, String descripcionIngreso, String montoIngreso) {
-        this.idIngreso = idIngreso;
-        this.idUsuario = idUsuario;
-        this.fuenteIngreso = fuenteIngreso;
-        this.fechaIngreso = fechaIngreso;
-        this.descripcionIngreso = descripcionIngreso;
-        this.montoIngreso = montoIngreso;
-    }
 
-    private String idIngreso;
-    private String idUsuario;
-    private String fuenteIngreso;
-    private String fechaIngreso;
-    private String descripcionIngreso;
-    private String montoIngreso;
-
-
-    }
-
-
+}

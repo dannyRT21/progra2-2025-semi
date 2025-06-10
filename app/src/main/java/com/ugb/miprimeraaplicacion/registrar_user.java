@@ -26,7 +26,7 @@ public class registrar_user extends AppCompatActivity {
         txtUsuario = findViewById(R.id.txtUsuario);
         txtclave = findViewById(R.id.txtclave_entrar);
         txtnombre = findViewById(R.id.txtnombre);
-        txtdireccion = findViewById(R.id.txtdireccion); // Fixed duplicate assignment
+        txtdireccion = findViewById(R.id.txtdireccion);
         txtTelefono = findViewById(R.id.txtTelefono);
 
         btnRegistrar = findViewById(R.id.btnregistrar);
@@ -41,7 +41,7 @@ public class registrar_user extends AppCompatActivity {
         mostrarDatos(usuario);
 
         btnIngresar.setOnClickListener(view -> {
-            // Navegar a la pantalla de inicio de sesión
+
             Intent intent = new Intent(this, login_vista.class);
             startActivity(intent);
         });
@@ -63,7 +63,7 @@ public class registrar_user extends AppCompatActivity {
         String direccion = txtdireccion.getText().toString().trim();
         String telefono = txtTelefono.getText().toString().trim();
 
-        // Validaciones
+
         if (usuario.isEmpty()) {
             Toast.makeText(this, "Debes ingresar un usuario", Toast.LENGTH_LONG).show();
             return;
@@ -85,7 +85,7 @@ public class registrar_user extends AppCompatActivity {
             return;
         }
 
-        // guadar wn database
+
         String[] datos = {"",usuario, clave, nombre, direccion, telefono};
         String resultado = dbHelper.administrarUsuarios("agregar", datos);
 
@@ -97,12 +97,12 @@ public class registrar_user extends AppCompatActivity {
             txtdireccion.setText("");
             txtTelefono.setText("");
 
-// Guarda el usuario en SharedPreferences
+
             getSharedPreferences("sesion", MODE_PRIVATE)
                     .edit()
                     .putString("usuario", usuario)
                     .apply();
-// Pasa el usuario a la MainActivity
+
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra("usuario", usuario);
             startActivity(intent);
@@ -116,7 +116,7 @@ public class registrar_user extends AppCompatActivity {
         try {
             SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-            // Consulta para obtener los datos del usuario
+
             Cursor fila = db.rawQuery(
                     "SELECT usuario, clave, nombre, direccion, telefono FROM usuarios WHERE usuario = ?",
                     new String[]{usuario});

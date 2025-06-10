@@ -1,6 +1,5 @@
 package com.ugb.miprimeraaplicacion;
 
-import static androidx.core.content.ContextCompat.startActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -54,7 +53,7 @@ public class login_vista extends AppCompatActivity {
                      new String[]{usuario, password})) {
 
             if (cursor.moveToFirst()) {
-                int idUsuario = cursor.getInt(cursor.getColumnIndexOrThrow("idUsuario")); // Obtén el idUsuario
+                int idUsuario = cursor.getInt(cursor.getColumnIndexOrThrow("idUsuario"));
                 Toast.makeText(this, "¡Bienvenido, " + usuario + "!", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra("idUsuario", idUsuario); // Pasa el idUsuario
@@ -62,7 +61,7 @@ public class login_vista extends AppCompatActivity {
                 finish();
             }
             else {
-                // Login failed
+
                 etPassword.setText("");
                 Toast.makeText(this, "Usuario o contraseña incorrectos. Intente de nuevo.", Toast.LENGTH_LONG).show();
             }

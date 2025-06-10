@@ -16,7 +16,7 @@
         android:drawablePadding="8dp"
         android:layout_marginBottom="16dp" />
 
-    <!-- Lista de resultados -->
+
     <ListView
         android:id="@+id/ltsIngresos"
         android:layout_width="match_parent"
@@ -25,7 +25,6 @@
         android:divider="@android:color/darker_gray"
         android:dividerHeight="1dp" />
 
-    <!-- Botón flotante -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabRegresarIngreso"
         android:layout_width="wrap_content"

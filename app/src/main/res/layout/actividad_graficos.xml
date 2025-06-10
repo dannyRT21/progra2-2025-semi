@@ -11,7 +11,7 @@
         android:orientation="vertical"
         android:background="#F5F5F5">
 
-        <!-- Tabs mejoradas -->
+
         <TabWidget
             android:id="@android:id/tabs"
             android:layout_width="match_parent"
@@ -19,14 +19,14 @@
             android:background="#00796B"
             android:divider="@null"/>
 
-        <!-- Contenido de Tabs -->
+
         <FrameLayout
             android:id="@android:id/tabcontent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="8dp">
 
-            <!-- TAB1 - Vista General (Gráfico de barras) -->
+
             <ScrollView
                 android:id="@+id/General"
                 android:layout_width="match_parent"
@@ -56,7 +56,7 @@
                             android:orientation="horizontal"
                             android:gravity="center_vertical"
                             android:paddingHorizontal="8dp">
-                            <!-- Botón Salir -->
+
 
 
                             <Button
@@ -72,7 +72,7 @@
                                 android:paddingRight="16dp" />
 
 
-                            <!-- Botón Agregar Gasto -->
+
 
                             <Button
                                 android:id="@+id/btnAgregarGastoDesdeGrafico"
@@ -86,7 +86,7 @@
                                 android:paddingLeft="16dp"
                                 android:paddingRight="16dp" />
 
-                            <!-- Botón Agregar Ingreso -->
+
 
                             <Button
                                 android:id="@+id/btnIngresoAgregarDesdeGrafico"
@@ -102,7 +102,7 @@
                         </LinearLayout>
                     </HorizontalScrollView>.
 
-                    <!-- Filtros de tiempo -->
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -151,7 +151,7 @@
                             android:layout_margin="2dp"/>
                     </LinearLayout>
 
-                    <!-- Gráfico de barras verticales -->
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="300dp"
@@ -161,7 +161,7 @@
                         android:elevation="4dp"
                         android:padding="16dp">
 
-                        <!-- Recibo de Luz -->
+
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_weight="1"
@@ -186,7 +186,7 @@
                                 android:layout_marginTop="8dp"/>
                         </LinearLayout>
 
-                        <!-- Recibo de Agua -->
+
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_weight="1"
@@ -236,7 +236,7 @@
                                 android:layout_marginTop="8dp"/>
                         </LinearLayout>
 
-                        <!-- Gastos Personales -->
+
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_weight="1"
@@ -286,7 +286,7 @@
                                 android:layout_marginTop="8dp"/>
                         </LinearLayout>
 
-                        <!-- Artículos de Higiene -->
+
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_weight="1"
@@ -312,7 +312,7 @@
                         </LinearLayout>
                     </LinearLayout>
 
-                    <!-- Totales y estadísticas -->
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -398,7 +398,7 @@
                 </LinearLayout>
             </ScrollView>
 
-            <!-- TAB2 - Gastos -->
+
             <ScrollView
                 android:id="@+id/Gastos"
                 android:layout_width="match_parent"
@@ -419,11 +419,11 @@
                         android:textSize="18sp"
                         android:gravity="center"/>
 
-                    <!-- Aquí puedes añadir más contenido específico de Gastos -->
+
                 </LinearLayout>
             </ScrollView>
 
-            <!-- TAB3 - Ingresos -->
+
             <ScrollView
                 android:id="@+id/Ingresos"
                 android:layout_width="match_parent"
@@ -444,7 +444,7 @@
                         android:textSize="18sp"
                         android:gravity="center"/>
 
-                    <!-- Aquí puedes añadir más contenido específico de Ingresos -->
+
                 </LinearLayout>
             </ScrollView>
         </FrameLayout>

@@ -31,14 +31,14 @@ public class DB extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_USUARIOS);
         db.execSQL(SQL_CREATE_GASTOS);
-        db.execSQL(SQL_CREATE_INGRESOS); // crea la tabla Ingresos
+        db.execSQL(SQL_CREATE_INGRESOS);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion < newVersion) {
             db.execSQL("ALTER TABLE Gastos ADD COLUMN UrlFoto TEXT");
-            // Aquí podrías manejar migraciones para Ingresos, si cambiaran en el futuro
+
         }
     }
 

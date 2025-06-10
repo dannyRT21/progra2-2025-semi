@@ -4,10 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-
     android:padding="16dp">
 
-    <!-- Título de la app -->
+
     <TextView
         android:id="@+id/tituloApp"
         android:layout_width="wrap_content"
@@ -20,7 +19,7 @@
         android:textStyle="bold"
         android:fontFamily="sans-serif-medium" />
 
-    <!-- Botones con scroll horizontal -->
+
     <HorizontalScrollView
         android:id="@+id/cintaBotones"
         android:layout_width="match_parent"
@@ -73,7 +72,7 @@
         </LinearLayout>
     </HorizontalScrollView>
 
-    <!-- Usuario y Total -->
+
     <RelativeLayout
         android:id="@+id/contenedorUsuario"
         android:layout_width="match_parent"
@@ -109,7 +108,7 @@
             android:fontFamily="sans-serif" />
     </RelativeLayout>
 
-    <!-- Sección de ingreso -->
+
     <LinearLayout
         android:id="@+id/contenedorDatos"
         android:layout_width="match_parent"
@@ -121,7 +120,7 @@
         android:padding="24dp"
         android:elevation="4dp">
 
-        <!-- Campo Fuente de Ingreso -->
+
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -134,10 +133,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textCapWords"
-                android:maxLines="1"/>
+                android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Campo Fecha -->
+
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -149,10 +148,13 @@
                 android:id="@+id/txtfechaIngreso"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="date"/>
+                android:focusable="false"
+                android:clickable="true"
+                android:inputType="none"
+                android:textColor="@android:color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Campo Descripción -->
+
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -164,10 +166,10 @@
                 android:id="@+id/txtdescripcionIngreso"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textCapSentences"/>
+                android:inputType="textCapSentences" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Campo Monto -->
+
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -179,10 +181,10 @@
                 android:id="@+id/txtMontoIngreso"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal"/>
+                android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Botón Guardar -->
+
         <Button
             android:id="@+id/btnGuardarIngreso"
             android:layout_width="match_parent"
@@ -195,7 +197,7 @@
             android:elevation="2dp"
             android:fontFamily="sans-serif-medium"/>
 
-        <!-- FAB -->
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabVerIngresos"
             android:layout_width="123dp"

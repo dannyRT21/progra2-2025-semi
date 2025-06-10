@@ -23,7 +23,7 @@ public class AdaptadorGastos extends BaseAdapter {
     public AdaptadorGastos(Context context, ArrayList<Gastos> alGastos) {
         this.context = context;
         this.alGastos = alGastos;
-        this.inflater = LayoutInflater.from(context); // Inflador inicializado aquí
+        this.inflater = LayoutInflater.from(context);
     }
 
     @Override

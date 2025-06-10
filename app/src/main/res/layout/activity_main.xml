@@ -6,7 +6,6 @@
     android:background="@android:color/holo_blue_light"
     android:padding="16dp">
 
- <!-- Línea divisoria superior -->
  <View
      android:id="@+id/divsion"
      android:layout_width="match_parent"
@@ -14,7 +13,7 @@
      android:layout_marginBottom="16dp"
      android:background="@android:color/white" />
 
- <!-- Título de la app -->
+
  <TextView
      android:id="@+id/tituloApp"
      android:layout_width="wrap_content"
@@ -28,7 +27,7 @@
      android:textStyle="bold"
      android:fontFamily="sans-serif-medium" />
 
- <!-- Botones con scroll horizontal -->
+
  <HorizontalScrollView
      android:id="@+id/cintaBotones"
      android:layout_width="match_parent"
@@ -68,8 +67,6 @@
        android:paddingLeft="16dp"
        android:paddingRight="16dp" />
 
-
-
    <Button
        android:id="@+id/btnAgregarIngreso"
        android:layout_width="wrap_content"
@@ -81,11 +78,10 @@
        android:paddingLeft="16dp"
        android:paddingRight="16dp" />
 
-
   </LinearLayout>
  </HorizontalScrollView>
 
- <!-- Usuario y Total -->
+
  <RelativeLayout
      android:id="@+id/contenedorUsuario"
      android:layout_width="match_parent"
@@ -117,7 +113,7 @@
       android:fontFamily="sans-serif-light" />
  </RelativeLayout>
 
- <!-- Sección de ingreso -->
+>
  <RelativeLayout
      android:id="@+id/contenedorDatos"
      android:layout_width="match_parent"
@@ -142,7 +138,9 @@
       android:layout_below="@id/spncategoria"
       android:layout_marginTop="8dp"
       android:hint="Fecha"
-      android:inputType="date"
+      android:inputType="none"
+      android:focusable="false"
+      android:clickable="true"
       android:padding="10dp"
       android:backgroundTint="#c0c0c0" />
 

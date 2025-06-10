@@ -1,4 +1,3 @@
-// app/src/main/java/com/ugb/miprimeraaplicacion/Graficos.java
 package com.ugb.miprimeraaplicacion;
 
 import android.annotation.SuppressLint;
@@ -23,12 +22,12 @@ public class Graficos extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.actividad_graficos); // Usar el layout correcto
+        setContentView(R.layout.actividad_graficos);
 
         inicializarTabs();
         inicializarVistasGrafico();
         configurarFiltros();
-        actualizarDatos("mes"); // Por defecto
+        actualizarDatos("mes");
 
         btn = findViewById(R.id.btnAgregarGastoDesdeGrafico);
         btn.setOnClickListener(view -> AbrirClaseAgregarGasto());
@@ -162,7 +161,7 @@ public class Graficos extends Activity {
                 break;
             case "mes":
             default:
-                // valores por defecto
+
                 break;
         }
 
